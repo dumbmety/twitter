@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface ITwitterContainer {
-  size: 'sm' | 'md' | 'lg'
+  size: 'xs' | 'sm' | 'md' | 'lg'
   children: any
 }
 
@@ -14,6 +14,7 @@ export default function TwitterContainer(props: ITwitterContainer) {
   if (props.size === 'lg') widthContainer = 1200
   else if (props.size === 'md') widthContainer = 960
   else if (props.size === 'sm') widthContainer = 768
+  else if (props.size === 'xs') widthContainer = 540
 
   return <Container widthContainer={widthContainer}>{props.children}</Container>
 }

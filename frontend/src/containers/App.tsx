@@ -1,15 +1,17 @@
 import { Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import Layout from '../components/Core/Layout'
 import routes from '../utils/routes'
+import Layout from '../components/Core/Layout'
+import Login from './Login'
+import Signup from './Signup'
 
 export default function App() {
   return (
     <Router>
       <Switch>
-        <Layout>
-          <Suspense fallback="Loading...">
+        <Suspense fallback="Loading...">
+          <Layout>
             {routes.map((route, index) => (
               <Route
                 exact
@@ -18,8 +20,10 @@ export default function App() {
                 component={route.component}
               />
             ))}
-          </Suspense>
-        </Layout>
+          </Layout>
+          <Route path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
+        </Suspense>
       </Switch>
     </Router>
   )
