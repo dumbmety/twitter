@@ -33,6 +33,12 @@ const Wrapper = styled.header`
   padding: 1rem;
   user-select: none;
   background: ${theme.dark.backgroundBox};
+  position: fixed;
+  top: 0;
+  left: 15rem;
+  right: 0;
+  z-index: 99;
+  box-shadow: 0 0.5rem 0.8rem rgba(38, 46, 54, 0.5);
 
   & > div {
     display: flex;

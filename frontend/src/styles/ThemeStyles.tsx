@@ -1,4 +1,9 @@
 const ThemeStyles = {
+  colors: {
+    blue: '#1da2f3',
+    red: '#e45251',
+    green: '#32c594'
+  },
   light: {
     primary: '#40aff6',
     primaryHover: '#109df4',

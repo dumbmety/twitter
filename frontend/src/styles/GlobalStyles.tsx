@@ -26,6 +26,11 @@ const GlobalStyles = createGlobalStyle`
     display: inline-block;
     text-decoration: none;
   }
+
+  ul,
+  ol {
+    list-style: none;
+  }
 `
 
 export default GlobalStyles

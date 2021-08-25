@@ -1,4 +1,5 @@
 import React from 'react'
+import SimpleBar from 'simplebar-react'
 import styled from 'styled-components'
 
 import Header from './Header'
@@ -11,15 +12,17 @@ type Props = {
 
 export default function Layout(props: Props) {
   return (
-    <Wrapper>
-      <Navigation />
-      <Content>
-        <Header />
-        <TwitterContainer size="md">
-          <Main>{props.children}</Main>
-        </TwitterContainer>
-      </Content>
-    </Wrapper>
+    <SimpleBar style={{ height: '100vh' }}>
+      <Wrapper>
+        <Navigation />
+        <Content>
+          <Header />
+          <TwitterContainer size="md">
+            <Main>{props.children}</Main>
+          </TwitterContainer>
+        </Content>
+      </Wrapper>
+    </SimpleBar>
   )
 }
 
@@ -34,6 +37,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 15rem;
+  margin-top: 80px;
 `
 
 const Main = styled.main`
