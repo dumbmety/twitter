@@ -4,14 +4,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import routes from '../utils/routes'
 import Layout from '../components/Core/Layout'
 import Login from './Login'
-import Signup from './Signup'
+import Register from './Register'
 
 export default function App() {
   return (
     <Router>
       <Switch>
         <Suspense fallback="Loading...">
-          <Layout>
+          {/* <Layout>
             {routes.map((route, index) => (
               <Route
                 exact
@@ -20,8 +20,8 @@ export default function App() {
                 component={route.component}
               />
             ))}
-          </Layout>
-          <Route path="/signup" component={Signup} />
+          </Layout> */}
+          <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
         </Suspense>
       </Switch>

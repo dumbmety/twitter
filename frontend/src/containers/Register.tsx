@@ -1,11 +1,30 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { FormEvent, useState } from 'react'
 
 import theme from '../styles/ThemeStyles'
+import * as authService from '../services/auth'
 import TwitterButton from '../components/Core/TwitterButton'
 import TwitterContainer from '../components/Core/TwitterContainer'
 
-export default function Signup() {
+export default function Register() {
+  const [loading, setLoading] = useState<boolean>(false)
+  const [name, setName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+
+  async function registerUser(event: FormEvent) {
+    event.preventDefault()
+
+    setLoading(true)
+    await authService.register({ name, email, password })
+    setLoading(false)
+
+    setName('')
+    setEmail('')
+    setPassword('')
+  }
+
   return (
     <Wrapper>
       <Image>
@@ -20,10 +39,16 @@ export default function Signup() {
       <Content>
         <TwitterContainer size="xs">
           <Title>Create an account</Title>
-          <Form>
+          <Form onSubmit={registerUser}>
             <FormControl>
               <FormLabel htmlFor="name">Name</FormLabel>
-              <FormInput id="name" type="text" placeholder="e.g. John Doe" />
+              <FormInput
+                id="name"
+                type="text"
+                placeholder="e.g. John Doe"
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
@@ -31,13 +56,25 @@ export default function Signup() {
                 id="email"
                 type="email"
                 placeholder="name@example.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="password">Passowrd</FormLabel>
-              <FormInput id="password" type="password" placeholder="••••••••" />
+              <FormInput
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
             </FormControl>
-            <TwitterButton variant="solid" children="Create" />
+            <TwitterButton
+              disabled={loading}
+              variant="solid"
+              children="Create"
+            />
             <p>
               You have an account? <Link to="/login">Login</Link>
             </p>

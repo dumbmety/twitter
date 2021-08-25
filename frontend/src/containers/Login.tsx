@@ -1,11 +1,26 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { FormEvent, useState } from 'react'
 
 import theme from '../styles/ThemeStyles'
+import * as authService from '../services/auth'
 import TwitterButton from '../components/Core/TwitterButton'
 import TwitterContainer from '../components/Core/TwitterContainer'
 
 export default function Login() {
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+
+  async function loginUser(event: FormEvent) {
+    event.preventDefault()
+
+    authService.login({ email, password })
+    authService.getLoggedInUser()
+
+    setEmail('')
+    setPassword('')
+  }
+
   return (
     <Wrapper>
       <Image>
@@ -20,18 +35,26 @@ export default function Login() {
       <Content>
         <TwitterContainer size="xs">
           <Title>Login to Twitter</Title>
-          <Form>
+          <Form onSubmit={loginUser}>
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
               <FormInput
                 id="email"
                 type="email"
                 placeholder="name@example.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="password">Passowrd</FormLabel>
-              <FormInput id="password" type="password" placeholder="••••••••" />
+              <FormInput
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
             </FormControl>
             <FormControl
               style={{
@@ -51,7 +74,7 @@ export default function Login() {
             <TwitterButton variant="solid" children="Login" />
             <p>
               You don't have an account?{' '}
-              <Link to="/signup">Create an account</Link>
+              <Link to="/register">Create an account</Link>
             </p>
           </Form>
         </TwitterContainer>
