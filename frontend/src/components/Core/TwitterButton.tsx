@@ -1,4 +1,5 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
+import { getButtonColors } from '../../helpers/button-component'
 import theme from '../../styles/ThemeStyles'
 
 interface IButton {
@@ -10,19 +11,29 @@ interface IButton {
   children: any
 }
 
+type ButtonProps = {
+  fluid?: boolean
+  disabled?: boolean
+  variant: 'solid' | 'outline' | 'ghost' | 'link'
+  buttonColors: string[]
+}
+
 export default function TwitterButton(props: IButton) {
+  const colors = getButtonColors(props.variant)
+
   return (
     <Button
       variant={props.variant}
       fluid={props.fluid}
       disabled={props.disabled}
+      buttonColors={colors || []}
     >
       {props.children}
     </Button>
   )
 }
 
-const Button = styled.button<IButton>`
+const Button = styled.button<ButtonProps>`
   cursor: pointer;
   padding: 0.75rem 1.5rem;
   font-size: 0.9rem;
@@ -30,27 +41,24 @@ const Button = styled.button<IButton>`
   user-select: none;
   transition: ${theme.transition.ease};
 
+  border: 1px solid ${props => props.buttonColors[1]};
+  color: ${props => props.buttonColors[0]};
+
+  background: ${props =>
+    props.variant === 'solid' ? `${props.buttonColors[1]}` : 'transparent'};
+
+  &:hover {
+    ${props =>
+      props.variant === 'solid' && `background: ${props.buttonColors[2]}`};
+    border-color: ${props => props.buttonColors[2]};
+  }
+
+  &:active {
+    ${props =>
+      props.variant === 'solid' && `background: ${props.buttonColors[3]}`};
+    border-color: ${props => props.buttonColors[3]};
+  }
+
   ${props => props.fluid && `width: 100%`};
-
-  ${props =>
-    props.variant === 'solid' &&
-    css`
-      color: ${theme.dark.text1};
-      background: ${theme.dark.primary};
-
-      &:hover {
-        background: ${theme.dark.primaryHover};
-      }
-
-      &:active {
-        background: ${theme.dark.primaryActive};
-      }
-    `}
-
-  ${props =>
-    props.disabled &&
-    css`
-      opacity: 0.75;
-      pointer-events: none;
-    `};
+  ${props => props.disabled && `opacity: 0.75; pointer-events: none;`};
 `

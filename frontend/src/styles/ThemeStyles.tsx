@@ -1,5 +1,6 @@
 const ThemeStyles = {
   colors: {
+    transparent: 'transparent',
     blue: '#1da2f3',
     red: '#e45251',
     green: '#32c594'

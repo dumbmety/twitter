@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import Tweet from '../components/Core/Tweet'
 
-import WhatsHappening from '../components/Home/WhatsHappening'
 import { home_tweets } from '../constants/tweets'
+import TrendsForYou from '../components/Home/TrendsForYou'
+import WhatsHappening from '../components/Home/WhatsHappening'
+import YouShouldFollow from '../components/Home/YouShouldFollow'
 
 export default function Home() {
   return (
@@ -26,14 +28,17 @@ export default function Home() {
             .reverse()}
         </Tweets>
       </Content>
-      <Aside>Aside</Aside>
+      <Aside>
+        <TrendsForYou />
+        <YouShouldFollow />
+      </Aside>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
   display: flex;
-  gap: 3rem;
+  gap: 1rem;
 `
 
 const Content = styled.div`
@@ -48,5 +53,8 @@ const Tweets = styled.ul`
 `
 
 const Aside = styled.aside`
-  width: 12rem;
+  width: 20rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
 `

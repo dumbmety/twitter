@@ -37,5 +37,18 @@ export const home_tweets = [
       username: 'dan_abramov',
       image: 'dan_abramov.jpg'
     }
+  },
+  {
+    id: 4,
+    retweet: 20,
+    likes: 133,
+    replies: 44,
+    createdAt: '2021-08-22T04:08:43',
+    text: 'I know what this is. It just my self talking to myself about myself',
+    user: {
+      name: 'Sohail',
+      username: 'soh3il',
+      image: 'soh3il.jpg'
+    }
   }
 ]
