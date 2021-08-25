@@ -20,6 +20,12 @@ const GlobalStyles = createGlobalStyle`
         : theme.light.backgroundPrimary};
     font-family: Inter, sans-serif;
   }
+
+  a {
+    color: inherit;
+    display: inline-block;
+    text-decoration: none;
+  }
 `
 
 export default GlobalStyles
