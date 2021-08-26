@@ -15,7 +15,10 @@ export default function WhatsHappening() {
     <TwitterBox>
       <Wrapper>
         <Link to={`/user/${user?.username}`}>
-          <Profile src={`/img/${user?.username}.jpg`} alt={user?.name} />
+          <Profile
+            src={`/img/users/${user.image || 'not_found'}.jpg`}
+            alt={user?.name}
+          />
         </Link>
         <div>
           <TextArea placeholder="What's happening?" />

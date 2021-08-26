@@ -2,11 +2,13 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/user.js')
 
 exports.user = (req, res) => {
-  res.json({ user: req.user })
+  req.user
+    ? res.json({ user: req.user })
+    : res.json({ message: 'User is not login' })
 }
 
 exports.logout = req => {
-  req.logout()
+  req?.logout()
 }
 
 exports.login = (req, res, next, passport) => {
@@ -16,15 +18,15 @@ exports.login = (req, res, next, passport) => {
 
     req.logIn(user, error => {
       if (error) throw error
-      res.json({ message: 'Successfully authenticated' })
+      res.json({ message: 'Successfully authenticated', user })
     })
   })(req, res, next)
 }
 
 exports.register = async (req, res) => {
-  const { name, email, password } = req.body
+  const { name, username, email, password } = req.body
 
-  if (!name | !email | !password) {
+  if (!name | !username | !email | !password) {
     return res.status(400).json({ error: true, message: 'Missing parameters!' })
   }
 
@@ -38,12 +40,17 @@ exports.register = async (req, res) => {
       })
     }
 
+    const createdUsername = username.trim().split(' ').join('_')
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    const newUser = { name, username: '', email, password: hashedPassword }
-    const userCreated = await User.create(newUser)
+    const createdUser = await User.create({
+      name,
+      email,
+      username: createdUsername,
+      password: hashedPassword
+    })
 
-    res.status(201).json({ user: userCreated })
+    res.status(201).json({ user: createdUser })
   } catch (error) {
     res.status(500).json({ error: true, message: error })
   }

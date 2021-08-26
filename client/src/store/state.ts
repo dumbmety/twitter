@@ -7,6 +7,7 @@ export interface RootState {
       name: string
       email: string
       password: string
+      image?: string
       username?: string
     }
   }

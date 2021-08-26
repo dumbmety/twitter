@@ -1,21 +1,25 @@
+import * as Yup from 'yup'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
-import * as Yup from 'yup'
 
 import theme from '../styles/ThemeStyles'
 import * as authService from '../services/auth'
+import * as authAction from '../store/actions/auth'
 import TwitterButton from '../components/Core/TwitterButton'
 import TwitterContainer from '../components/Core/TwitterContainer'
 
 interface RegisterFormValues {
   name: string
+  username: string
   email: string
   password: string
 }
 
 const registerSchema = Yup.object().shape({
   name: Yup.string().required('Please enter your name'),
+  username: Yup.string().required('Please enter your username'),
   email: Yup.string()
     .required('Please enter your emaill')
     .email('Your email is invalid'),
@@ -24,8 +28,11 @@ const registerSchema = Yup.object().shape({
 
 export default function Register() {
   const history = useHistory()
+  const dispatch = useDispatch()
+
   const initialValues: RegisterFormValues = {
     name: '',
+    username: '',
     email: '',
     password: ''
   }
@@ -48,11 +55,14 @@ export default function Register() {
             initialValues={initialValues}
             validationSchema={registerSchema}
             onSubmit={(values, { resetForm }) => {
-              authService.register({
-                name: values.name,
-                email: values.email,
-                password: values.password
-              })
+              dispatch(
+                authAction.registerUser({
+                  name: values.name,
+                  username: values.username,
+                  email: values.email,
+                  password: values.password
+                })
+              )
 
               resetForm()
               history.push('/')
@@ -69,6 +79,18 @@ export default function Register() {
                     placeholder="e.g. John Doe"
                   />
                   {errors.name && touched.name && <small>{errors.name}</small>}
+                </div>
+                <div>
+                  <label htmlFor="username">Username</label>
+                  <Field
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="e.g. john_doe"
+                  />
+                  {errors.username && touched.username && (
+                    <small>{errors.username}</small>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="email">Email</label>
@@ -94,7 +116,11 @@ export default function Register() {
                     <small>{errors.password}</small>
                   )}
                 </div>
-                <TwitterButton variant="solid" children="Create" />
+                <TwitterButton
+                  type="submit"
+                  variant="solid"
+                  children="Create"
+                />
                 <p>
                   You have an account? <Link to="/">Login</Link>
                 </p>

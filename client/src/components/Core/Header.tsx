@@ -24,7 +24,10 @@ export default function Header() {
         <Profile>
           <Link to={`/user/${user?.username}`}>
             <span>{user?.name}</span>
-            <img src={`/img/${user?.username}.jpg`} alt={user?.name} />
+            <img
+              src={`/img/users/${user.image || 'not_found'}.jpg`}
+              alt={user?.name}
+            />
           </Link>
         </Profile>
       </TwitterContainer>

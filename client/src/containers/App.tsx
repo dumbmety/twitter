@@ -1,7 +1,12 @@
 import SimpleBar from 'simplebar-react'
 import { useEffect, Suspense } from 'react'
 import { useDispatch } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch
+} from 'react-router-dom'
 
 import * as authAction from '../store/actions/auth'
 import routes from '../utils/routes'
@@ -40,6 +45,7 @@ export default function App() {
               <>
                 <Route path="/register" component={Register} />
                 <Route path="/" exact component={Login} />
+                <Redirect to="/" />
               </>
             )}
           </Suspense>

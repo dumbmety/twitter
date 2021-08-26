@@ -33,7 +33,7 @@ export default function Tweet(props: ITweet) {
     <Wrapper>
       <TwitterBox>
         <Link to={url}>
-          <Profile src={`/img/${props.image}`} alt="Mehdi Neysi" />
+          <Profile src={`/img/users/${props.image}`} alt="Mehdi Neysi" />
         </Link>
         <TwitterCard>
           <Header>

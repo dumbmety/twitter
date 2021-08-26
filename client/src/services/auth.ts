@@ -7,6 +7,7 @@ interface IUserLogin {
 
 interface IUserRegister {
   name: string
+  username: string
   email: string
   password: string
 }
@@ -36,13 +37,21 @@ export async function login({ email, password }: IUserLogin) {
   }
 }
 
-export async function register({ name, email, password }: IUserRegister) {
-  const user = { name, email, password }
+export async function register({
+  name,
+  username,
+  email,
+  password
+}: IUserRegister) {
+  const user = { name, email, username, password }
 
   try {
-    const res = await axios.post('/register', user)
-    console.log(res)
+    const { data } = await axios.post('/register', user)
+
+    return data.error
+      ? { success: false, message: data.message }
+      : { success: true, user: data.user }
   } catch (err) {
-    console.log(err)
+    return err
   }
 }

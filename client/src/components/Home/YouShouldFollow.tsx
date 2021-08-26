@@ -20,7 +20,7 @@ export default function YouShouldFollow() {
             <User key={user.username}>
               <Link to={`/user/${user.username}`}>
                 <UserInfo>
-                  <img src={`/img/${user.image}`} alt={user.name} />
+                  <img src={`/img/users/${user.image}`} alt={user.name} />
                   <div>
                     <span>{user.name}</span>
                     <span>@{user.username}</span>

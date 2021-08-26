@@ -7,6 +7,13 @@ interface User {
   password: string
 }
 
+interface RegisterUser {
+  name: string
+  username: string
+  email: string
+  password: string
+}
+
 export const getUser = () => async (dispatch: Dispatch) => {
   dispatch({ type: types.GET_USER_REQUEST })
 
@@ -32,3 +39,24 @@ export const loginUser = (user: User) => async (dispatch: Dispatch) => {
     dispatch({ type: types.LOGIN_USER_FAILURE, error })
   }
 }
+
+export const registerUser =
+  (user: RegisterUser) => async (dispatch: Dispatch) => {
+    const { name, username, email, password } = user
+    dispatch({ type: types.REGISTER_USER_REQUEST })
+
+    try {
+      const res = await authService.register({
+        name,
+        username,
+        email,
+        password
+      })
+
+      res.success
+        ? dispatch({ type: types.REGISTER_USER_SUCCESS, user: res.user })
+        : dispatch({ type: types.REGISTER_USER_FAILURE, error: res.message })
+    } catch (error) {
+      dispatch({ type: types.REGISTER_USER_FAILURE, error })
+    }
+  }
