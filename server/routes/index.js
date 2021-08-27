@@ -1,5 +1,6 @@
 const authController = require('../controllers/auth')
 const usersController = require('../controllers/users')
+const tweetsController = require('../controllers/tweets')
 
 function apiRoutes(app, passport) {
   // Auth
@@ -12,7 +13,11 @@ function apiRoutes(app, passport) {
 
   // User
   app.get('/api/users', usersController.list)
-  app.get('/api/users/:id', usersController.get)
+  app.get('/api/users/:username', usersController.get)
+
+  // Tweet
+  app.get('/api/tweets', tweetsController.getMyTweets)
+  app.post('/api/tweets', tweetsController.create)
 }
 
 module.exports = apiRoutes

@@ -1,12 +1,17 @@
 import styled from 'styled-components'
+import { Person } from 'react-ionicons'
 import { Link, NavLink } from 'react-router-dom'
 
 import logo from '../../assets/images/logo.svg'
 import theme from '../../styles/ThemeStyles'
 import navigation from '../../constants/navigation'
+import useAuth from '../../hooks/useAuth'
+
 import TwitterButton from './TwitterButton'
 
 export default function Navigation() {
+  const { user } = useAuth()
+
   return (
     <Wrapper>
       <Logo>
@@ -30,6 +35,12 @@ export default function Navigation() {
             </NavLink>
           </Item>
         ))}
+        <Item>
+          <NavLink exact to={`/${user.username}`} activeClassName="active">
+            <Person />
+            <span>Profile</span>
+          </NavLink>
+        </Item>
       </List>
       <ButtonWrapper>
         <TwitterButton fluid disabled variant="solid">

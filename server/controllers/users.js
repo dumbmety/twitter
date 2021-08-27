@@ -9,10 +9,11 @@ exports.list = async (req, res) => {
 }
 
 exports.get = async (req, res) => {
-  const { id } = req.params
+  const { username } = req.params
 
   try {
-    return await User.findById({ _id: id })
+    const user = await User.findOne({ username })
+    return res.json(user)
   } catch (err) {
     return res.json({ error: true, message: 'Something went wrong' })
   }

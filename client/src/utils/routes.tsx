@@ -6,7 +6,11 @@ interface IRoute {
 }
 
 const routes: IRoute[] = [
-  { path: '/', component: lazy(() => import('../containers/Home')) }
+  { path: '/', component: lazy(() => import('../containers/Home')) },
+  {
+    path: '/:username',
+    component: lazy(() => import('../containers/Profile'))
+  }
 ]
 
 export default routes

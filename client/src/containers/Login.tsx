@@ -7,8 +7,8 @@ import { Formik, Form, Field } from 'formik'
 import * as authAction from '../store/actions/auth'
 import { RootState } from '../store/state'
 import theme from '../styles/ThemeStyles'
-import TwitterButton from '../components/Core/TwitterButton'
-import TwitterContainer from '../components/Core/TwitterContainer'
+import TwitterButton from '../components/Common/TwitterButton'
+import TwitterContainer from '../components/Common/TwitterContainer'
 
 interface LoginFormValues {
   email: string
@@ -57,6 +57,7 @@ export default function Login() {
                   password: values.password
                 })
               )
+              window.location.reload()
             }}
           >
             {({ errors, touched }) => (

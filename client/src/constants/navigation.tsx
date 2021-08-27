@@ -4,8 +4,7 @@ import {
   Document,
   Home,
   Mail,
-  Notifications,
-  Person
+  Notifications
 } from 'react-ionicons'
 
 interface INavLink {
@@ -49,12 +48,6 @@ const navigation: INavLink[] = [
     name: 'Lists',
     path: '/lists',
     icon: <Document />,
-    disabled: true
-  },
-  {
-    name: 'Profile',
-    path: '/profile',
-    icon: <Person />,
     disabled: true
   }
 ]

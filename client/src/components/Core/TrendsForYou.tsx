@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Cog, EllipsisVertical } from 'react-ionicons'
 
 import theme from '../../styles/ThemeStyles'
-import TwitterBox from '../Core/TwitterBox'
+import TwitterBox from '../Common/TwitterBox'
 import { trends_hashtags } from '../../constants/hashtags'
 
 export default function TrendsForYou() {

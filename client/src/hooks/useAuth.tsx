@@ -4,5 +4,5 @@ import { RootState } from '../store/state'
 export default function useAuth() {
   const authorize = useSelector((state: RootState) => state.authorize)
 
-  return { isLogin: authorize.hasUser }
+  return { user: authorize.user, isLogin: authorize.hasUser }
 }

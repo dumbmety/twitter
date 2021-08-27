@@ -47,7 +47,10 @@ exports.register = async (req, res) => {
       name,
       email,
       username: createdUsername,
-      password: hashedPassword
+      password: hashedPassword,
+      tweets: [],
+      followers: [],
+      following: []
     })
 
     res.status(201).json({ user: createdUser })

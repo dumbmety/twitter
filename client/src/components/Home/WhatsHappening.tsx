@@ -5,8 +5,8 @@ import { CalendarOutline, HappyOutline, ImageOutline } from 'react-ionicons'
 
 import { RootState } from '../../store/state'
 import theme from '../../styles/ThemeStyles'
-import TwitterBox from '../Core/TwitterBox'
-import TwitterButton from '../Core/TwitterButton'
+import TwitterBox from '../Common/TwitterBox'
+import TwitterButton from '../Common/TwitterButton'
 
 export default function WhatsHappening() {
   const { user } = useSelector((state: RootState) => state.authorize)
@@ -16,7 +16,7 @@ export default function WhatsHappening() {
       <Wrapper>
         <Link to={`/user/${user?.username}`}>
           <Profile
-            src={`/img/users/${user.image || 'not_found'}.jpg`}
+            src={`/img/users/${user.image || 'not_found.jpg'}`}
             alt={user?.name}
           />
         </Link>

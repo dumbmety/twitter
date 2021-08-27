@@ -2,9 +2,9 @@ import styled from 'styled-components'
 import { Reload } from 'react-ionicons'
 
 import theme from '../../styles/ThemeStyles'
-import TwitterBox from '../Core/TwitterBox'
+import TwitterBox from '../Common/TwitterBox'
 import { users_suggested } from '../../constants/users'
-import TwitterButton from '../Core/TwitterButton'
+import TwitterButton from '../Common/TwitterButton'
 import { Link } from 'react-router-dom'
 
 export default function YouShouldFollow() {

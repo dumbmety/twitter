@@ -11,7 +11,7 @@ import {
 import * as authAction from '../store/actions/auth'
 import routes from '../utils/routes'
 
-import Layout from '../components/Core/Layout'
+import Layout from '../components/Common/Layout'
 import Login from './Login'
 import Register from './Register'
 import useAuth from '../hooks/useAuth'

@@ -10,6 +10,7 @@ interface IButton {
   variant: 'solid' | 'outline' | 'ghost' | 'link'
 
   children: any
+  onClick?: () => void
 }
 
 type ButtonProps = {
@@ -29,6 +30,7 @@ export default function TwitterButton(props: IButton) {
       fluid={props.fluid}
       disabled={props.disabled}
       buttonColors={colors || []}
+      onClick={props.onClick}
     >
       {props.children}
     </Button>

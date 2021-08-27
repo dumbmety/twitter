@@ -22,10 +22,10 @@ export default function Header() {
           <input type="text" placeholder="Search on Twitter" />
         </SearchBox>
         <Profile>
-          <Link to={`/user/${user?.username}`}>
+          <Link to={`/${user?.username}`}>
             <span>{user?.name}</span>
             <img
-              src={`/img/users/${user.image || 'not_found'}.jpg`}
+              src={`/img/users/${user.image || 'not_found.jpg'}`}
               alt={user?.name}
             />
           </Link>
@@ -44,7 +44,6 @@ const Wrapper = styled.header`
   left: 15rem;
   right: 0;
   z-index: 99;
-  box-shadow: 0 0.5rem 0.8rem rgba(38, 46, 54, 0.5);
 
   & > div {
     display: flex;

@@ -5,10 +5,9 @@ import { Link, useHistory } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
 
 import theme from '../styles/ThemeStyles'
-import * as authService from '../services/auth'
 import * as authAction from '../store/actions/auth'
-import TwitterButton from '../components/Core/TwitterButton'
-import TwitterContainer from '../components/Core/TwitterContainer'
+import TwitterButton from '../components/Common/TwitterButton'
+import TwitterContainer from '../components/Common/TwitterContainer'
 
 interface RegisterFormValues {
   name: string

@@ -15,16 +15,16 @@ interface RegisterUser {
 }
 
 export const getUser = () => async (dispatch: Dispatch) => {
-  dispatch({ type: types.GET_USER_REQUEST })
+  dispatch({ type: types.GET_AUTHORIZE_USER_REQUEST })
 
   try {
     const res = await authService.getLoggedInUser()
 
     res.success
-      ? dispatch({ type: types.GET_USER_SUCCESS, user: res.user })
-      : dispatch({ type: types.GET_USER_FAILURE, error: res.message })
+      ? dispatch({ type: types.GET_AUTHORIZE_USER_SUCCESS, user: res.user })
+      : dispatch({ type: types.GET_AUTHORIZE_USER_FAILURE, error: res.message })
   } catch (error) {
-    dispatch({ type: types.GET_USER_FAILURE, error })
+    dispatch({ type: types.GET_AUTHORIZE_USER_FAILURE, error })
   }
 }
 

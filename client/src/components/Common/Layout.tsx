@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 import Header from './Header'
 import Navigation from './Navigation'
-import TwitterContainer from './TwitterContainer'
 
 type Props = {
   children: React.ReactNode
@@ -17,9 +16,7 @@ export default function Layout(props: Props) {
         <Navigation />
         <Content>
           <Header />
-          <TwitterContainer size="md">
-            <Main>{props.children}</Main>
-          </TwitterContainer>
+          <Main>{props.children}</Main>
         </Content>
       </Wrapper>
     </SimpleBar>
@@ -42,5 +39,4 @@ const Content = styled.div`
 
 const Main = styled.main`
   flex: 1;
-  padding: 2rem 0;
 `
