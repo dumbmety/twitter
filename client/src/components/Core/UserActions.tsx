@@ -6,35 +6,53 @@ import theme from '../../styles/ThemeStyles'
 import TwitterBox from '../Common/TwitterBox'
 import useAuth from '../../hooks/useAuth'
 
-export default function UserActions() {
+type Props = {
+  activeLink?: 'activity' | 'moments' | 'friends' | 'edit'
+}
+
+const user_actions = [
+  {
+    url: '',
+    name: 'activity',
+    title: 'Activity',
+    icon: <Eye width="1.6rem" height="1.6rem" />
+  },
+  {
+    url: '/moments',
+    name: 'moments',
+    title: 'Moments',
+    icon: <Flash width="1.6rem" height="1.6rem" />
+  },
+  {
+    url: '/friends',
+    name: 'friends',
+    title: 'Friends',
+    icon: <People width="1.6rem" height="1.6rem" />
+  },
+  {
+    url: '/edit',
+    name: 'edit',
+    title: 'Edit Profile',
+    icon: <Settings width="1.6rem" height="1.6rem" />
+  }
+]
+
+export default function UserActions(props: Props) {
   const { user } = useAuth()
 
   return (
     <Grid>
-      <Link to={`/${user.username}/activity`}>
-        <TwitterBox variant="outline">
-          <Eye width="1.6rem" height="1.6rem" />
-          <Title>Activity</Title>
-        </TwitterBox>
-      </Link>
-      <Link to={`/${user.username}/moments`}>
-        <TwitterBox variant="outline">
-          <Flash width="1.6rem" height="1.6rem" />
-          <Title>Moments</Title>
-        </TwitterBox>
-      </Link>
-      <Link to={`/${user.username}/friends`}>
-        <TwitterBox variant="outline">
-          <People width="1.6rem" height="1.6rem" />
-          <Title>Friends</Title>
-        </TwitterBox>
-      </Link>
-      <Link to={`/${user.username}/edit`}>
-        <TwitterBox variant="outline">
-          <Settings width="1.6rem" height="1.6rem" />
-          <Title>Edit Profile</Title>
-        </TwitterBox>
-      </Link>
+      {user_actions.map(action => (
+        <Link to={`/${user.username}${action.url}`}>
+          <TwitterBox
+            isActive={props.activeLink === action.name}
+            variant={props.activeLink === action.name ? 'solid' : 'outline'}
+          >
+            {action.icon}
+            <Title>{action.title}</Title>
+          </TwitterBox>
+        </Link>
+      ))}
     </Grid>
   )
 }

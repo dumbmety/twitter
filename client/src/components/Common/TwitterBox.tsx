@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 import theme from '../../styles/ThemeStyles'
 
 interface ITwitterBox {
+  isActive?: boolean
   variant?: 'solid' | 'outline'
   isDisabled?: boolean
   children: any
@@ -9,7 +10,11 @@ interface ITwitterBox {
 
 export default function TwitterBox(props: ITwitterBox) {
   return (
-    <Box variant={props.variant || 'solid'} isDisabled={props.isDisabled}>
+    <Box
+      variant={props.variant || 'solid'}
+      isActive={props.isActive}
+      isDisabled={props.isDisabled}
+    >
       {props.children}
     </Box>
   )
@@ -44,4 +49,16 @@ const Box = styled.div<ITwitterBox>`
       opacity: 0.5;
       pointer-events: none;
     `}
+
+  
+  ${props =>
+    props.isActive &&
+    css`
+      color: ${theme.colors.blue} !important;
+
+      svg {
+        fill: ${theme.colors.blue} !important;
+        color: ${theme.colors.blue} !important;
+      }
+    `};
 `

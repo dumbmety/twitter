@@ -12,6 +12,10 @@ const routes: IRoute[] = [
     component: lazy(() => import('../containers/Profile'))
   },
   {
+    path: '/:username/edit',
+    component: lazy(() => import('../containers/EditProfile'))
+  },
+  {
     path: '/user/:username',
     component: lazy(() => import('../containers/User'))
   }

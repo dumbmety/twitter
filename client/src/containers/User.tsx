@@ -9,10 +9,8 @@ import * as userService from '../services/user'
 
 import { IUser } from '../store/state'
 import theme from '../styles/ThemeStyles'
-import useAuth from '../hooks/useAuth'
 import TwitterBox from '../components/Common/TwitterBox'
 import Tweet from '../components/Common/Tweet'
-import { useUsersTweets } from '../hooks/tweets'
 import TwitterFullscreen from '../components/Common/TwitterFullscreen'
 
 type Params = { username: string }
@@ -28,6 +26,7 @@ export default function User() {
 
   useEffect(() => {
     getUserProfile()
+    // eslint-disable-next-line
   }, [params.username])
 
   const getUserProfile = async () => {

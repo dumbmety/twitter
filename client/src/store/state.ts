@@ -2,10 +2,16 @@ export interface IUser {
   name: string
   email: string
   password: string
-  cover?: string
-  image?: string
+
+  bio?: string
+  website?: string
+  birthday?: string
   username?: string
   location?: string
+
+  cover?: string
+  image?: string
+
   tweets?: ITweet[]
   followers?: object[]
   following?: object[]
