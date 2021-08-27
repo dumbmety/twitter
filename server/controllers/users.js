@@ -1,4 +1,5 @@
-const User = require('../models/user.js')
+const User = require('../models/user')
+const Tweet = require('../models/tweet')
 
 exports.list = async (req, res) => {
   try {
@@ -13,7 +14,9 @@ exports.get = async (req, res) => {
 
   try {
     const user = await User.findOne({ username })
-    return res.json(user)
+    const tweets = await Tweet.find({ user: user._id })
+
+    return res.json({ user, tweets })
   } catch (err) {
     return res.json({ error: true, message: 'Something went wrong' })
   }

@@ -18,7 +18,7 @@ import useAuth from '../hooks/useAuth'
 
 export default function App() {
   const dispatch = useDispatch()
-  const { isLogin } = useAuth()
+  const { loading, isLogin } = useAuth()
 
   useEffect(() => {
     dispatch(authAction.getUser())
@@ -30,7 +30,9 @@ export default function App() {
       <Router>
         <Switch>
           <Suspense fallback="Loading...">
-            {isLogin ? (
+            {loading ? (
+              'Loading...'
+            ) : isLogin ? (
               <Layout>
                 {routes.map((route, index) => (
                   <Route

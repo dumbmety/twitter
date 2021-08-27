@@ -1,15 +1,15 @@
 import styled from 'styled-components'
-import { useState } from 'react'
 import { LocationOutline } from 'react-ionicons'
 
 import theme from '../../styles/ThemeStyles'
 import TwitterBox from '../Common/TwitterBox'
-import TwitterFullscreen from '../Common/TwitterFullscreen'
 
-import useAuth from '../../hooks/useAuth'
+import { IUser } from '../../store/state'
 import { useUsersTweets } from '../../hooks/tweets'
+import useAuth from '../../hooks/useAuth'
 
 type Props = {
+  user?: IUser
   onOpen: () => void
 }
 
@@ -17,44 +17,74 @@ export default function UserInfo(props: Props) {
   const { user } = useAuth()
   const { tweetsCount } = useUsersTweets()
 
-  const [open, setOpen] = useState<boolean>(false)
+  const handleClickAvatar = () => {
+    if (!!props?.user?.image || !!user.image) props.onOpen()
+  }
 
   return (
     <TwitterBox>
       <Center>
-        <Avatar onClick={props.onOpen}>
+        <Avatar
+          hasAvatar={!!props?.user?.image || !!user.image}
+          onClick={handleClickAvatar}
+        >
           <img
-            src={`/img/users/${user.image || 'not_found.jpg'}`}
-            alt={`${user.name} Cover`}
+            src={`/img/users/${
+              props?.user?.image || user.image || 'not_found.jpg'
+            }`}
+            alt={`${props?.user?.name || user.name} Cover`}
           />
         </Avatar>
         <Name>
-          <h2>{user.name}</h2>
-          <p>@{user.username}</p>
+          <h2>{props?.user?.name || user.name}</h2>
+          <p>@{props?.user?.username || user.username}</p>
         </Name>
-        {user.location && (
-          <Location>
-            <LocationOutline width="1.5rem" />
-            <p>{user.location}</p>
-          </Location>
+        {props?.user ? (
+          props?.user?.location ? (
+            <Location>
+              <LocationOutline width="1.5rem" />
+              <p>{props?.user?.location}</p>
+            </Location>
+          ) : null
+        ) : (
+          user.location && (
+            <Location>
+              <LocationOutline width="1.5rem" />
+              <p>{user.location}</p>
+            </Location>
+          )
         )}
         <List>
           <Item>
             <Title>Tweets</Title>
-            <Value>{tweetsCount}</Value>
+            <Value>
+              {props?.user ? props?.user?.tweets?.length : tweetsCount}
+            </Value>
           </Item>
           <Item>
             <Title>Followers</Title>
-            <Value>{user?.followers?.length}</Value>
+            <Value>
+              {props?.user
+                ? props?.user?.followers?.length
+                : user?.followers?.length}
+            </Value>
           </Item>
           <Item>
             <Title>Following</Title>
-            <Value>{user?.following?.length}</Value>
+            <Value>
+              {props?.user
+                ? props?.user?.following?.length
+                : user?.following?.length}
+            </Value>
           </Item>
         </List>
       </Center>
     </TwitterBox>
   )
+}
+
+interface IAvatar {
+  hasAvatar?: boolean
 }
 
 const Center = styled.div`
@@ -65,12 +95,13 @@ const Center = styled.div`
   gap: 1rem;
 `
 
-const Avatar = styled.div`
+const Avatar = styled.div<IAvatar>`
   width: 5rem;
   height: 5rem;
   overflow: hidden;
   border-radius: 50%;
-  cursor: pointer;
+
+  ${props => props.hasAvatar && `cursor: pointer;`}
 
   img {
     width: 100%;

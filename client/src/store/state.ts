@@ -6,7 +6,7 @@ export interface IUser {
   image?: string
   username?: string
   location?: string
-  tweets?: object[]
+  tweets?: ITweet[]
   followers?: object[]
   following?: object[]
 }

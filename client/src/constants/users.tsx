@@ -11,9 +11,9 @@ export const users_suggested: IUser[] = [
     image: 'siavash.jpg'
   },
   {
-    username: 'soh3il',
-    name: 'Sohail',
-    image: 'soh3il.jpg'
+    username: 'neysidev',
+    name: 'Mehdi',
+    image: 'neysidev.jpg'
   },
   {
     username: 'javalaves',

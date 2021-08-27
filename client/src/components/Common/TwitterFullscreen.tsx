@@ -79,7 +79,13 @@ const Image = styled.img<IImage>`
   left: 50%;
   transform: translate(-50%, -50%);
 
-  ${props => props.imgType === 'profile' && `border-radius: 50%`};
+  ${props =>
+    props.imgType === 'profile' &&
+    css`
+      width: 20rem;
+      height: 20rem;
+      border-radius: 50%;
+    `};
 
   ${props =>
     props.imgType === 'cover' &&
