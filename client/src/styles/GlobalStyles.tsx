@@ -9,6 +9,7 @@ const GlobalStyles = createGlobalStyle`
     outline: 0;
     font: inherit;
     box-sizing: border-box;
+    background: transparent;
   }
 
   body {
@@ -30,6 +31,10 @@ const GlobalStyles = createGlobalStyle`
   ul,
   ol {
     list-style: none;
+  }
+
+  button {
+    cursor: pointer;
   }
 `
 

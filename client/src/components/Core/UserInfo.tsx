@@ -1,20 +1,28 @@
 import styled from 'styled-components'
+import { useState } from 'react'
 import { LocationOutline } from 'react-ionicons'
 
 import theme from '../../styles/ThemeStyles'
 import TwitterBox from '../Common/TwitterBox'
+import TwitterFullscreen from '../Common/TwitterFullscreen'
 
 import useAuth from '../../hooks/useAuth'
 import { useUsersTweets } from '../../hooks/tweets'
 
-export default function UserInfo() {
+type Props = {
+  onOpen: () => void
+}
+
+export default function UserInfo(props: Props) {
   const { user } = useAuth()
   const { tweetsCount } = useUsersTweets()
+
+  const [open, setOpen] = useState<boolean>(false)
 
   return (
     <TwitterBox>
       <Center>
-        <Avatar>
+        <Avatar onClick={props.onOpen}>
           <img
             src={`/img/users/${user.image || 'not_found.jpg'}`}
             alt={`${user.name} Cover`}
@@ -62,6 +70,7 @@ const Avatar = styled.div`
   height: 5rem;
   overflow: hidden;
   border-radius: 50%;
+  cursor: pointer;
 
   img {
     width: 100%;

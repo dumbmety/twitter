@@ -15,10 +15,13 @@ import useAuth from '../hooks/useAuth'
 import TwitterBox from '../components/Common/TwitterBox'
 import Tweet from '../components/Common/Tweet'
 import { useUsersTweets } from '../hooks/tweets'
+import TwitterFullscreen from '../components/Common/TwitterFullscreen'
 
 type Params = { username: string }
 
 export default function Profile() {
+  const [openCover, setOpenCover] = useState<boolean>(false)
+  const [openPicture, setOpenPicture] = useState<boolean>(false)
   const [tab, setTab] = useState<string>('tweets')
 
   const dispatch = useDispatch()
@@ -34,15 +37,29 @@ export default function Profile() {
 
   return (
     <Wrapper>
-      <Cover>
+      <Cover onClick={() => setOpenCover(true)}>
         {user.cover && (
           <img src={`/img/covers/${user.cover}`} alt={`${user.name} Cover`} />
         )}
       </Cover>
+      <TwitterFullscreen
+        type="cover"
+        isOpen={openCover}
+        srcImg={`/img/covers/${user.cover}`}
+        altImg={`${user.name} Cover`}
+        onClose={() => setOpenCover(false)}
+      />
+      <TwitterFullscreen
+        type="profile"
+        isOpen={openPicture}
+        srcImg={`/img/users/${user.image || 'not_found.jpg'}`}
+        altImg={`${user.name} Cover`}
+        onClose={() => setOpenPicture(false)}
+      />
       <TwitterContainer size="md">
         <Content>
           <Group style={{ width: 320 }}>
-            <UserInfo />
+            <UserInfo onOpen={() => setOpenPicture(true)} />
             <UserActions />
           </Group>
           <Main>
@@ -99,6 +116,7 @@ const Cover = styled.div`
   width: 100%;
   height: 17rem;
   overflow: hidden;
+  cursor: pointer;
   background: ${theme.colors.blue};
 
   img {
