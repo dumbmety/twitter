@@ -53,7 +53,6 @@ export default function App() {
                 <>
                   <Route path="/register" component={Register} />
                   <Route path="/" exact component={Login} />
-                  <Redirect to="/" />
                 </>
               )}
             </Suspense>

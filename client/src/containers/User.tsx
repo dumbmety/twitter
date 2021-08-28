@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
@@ -7,6 +8,8 @@ import TwitterContainer from '../components/Common/TwitterContainer'
 import UserInfo from '../components/Core/UserInfo'
 
 import * as userService from '../services/user'
+import * as authAction from '../store/actions/auth'
+import useAuth from '../hooks/useAuth'
 
 import { IUser } from '../store/state'
 import theme from '../styles/ThemeStyles'
@@ -14,12 +17,17 @@ import TwitterBox from '../components/Common/TwitterBox'
 import Tweet from '../components/Common/Tweet'
 import TwitterFullscreen from '../components/Common/TwitterFullscreen'
 import TweetSkeleton from '../components/Skeleton/TweetSkeleton'
+import UserActions from '../components/Core/UserActions'
 
 type Params = { username: string }
 
 export default function User() {
-  const [loading, setLoading] = useState(true)
+  const auth = useAuth()
+  const dispatch = useDispatch()
+
   const [user, setUser] = useState<IUser>({} as IUser)
+  const [follow, setFollow] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const [openCover, setOpenCover] = useState<boolean>(false)
   const [openPicture, setOpenPicture] = useState<boolean>(false)
@@ -28,15 +36,47 @@ export default function User() {
   const params: Params = useParams()
 
   useEffect(() => {
+    return () => {
+      dispatch(authAction.getUser())
+    }
+  }, [])
+
+  useEffect(() => {
     getUserProfile()
     // eslint-disable-next-line
   }, [params.username])
+
+  useEffect(() => {
+    setFollow(auth.user?.following?.includes(user._id) || false)
+  }, [user])
 
   const getUserProfile = async () => {
     setLoading(true)
     const res = await userService.getUser(params.username)
     if (res.success) setUser({ ...res.user, tweets: res.tweets })
     setLoading(false)
+  }
+
+  const followUser = async () => {
+    if (user?._id && user?.followers) {
+      const res = await userService.followUser(auth.user._id, user._id)
+
+      if (res.success) {
+        user.followers.push(auth.user._id)
+        setFollow(true)
+      }
+    }
+  }
+
+  const unfollowUser = async () => {
+    if (user?._id && user?.followers) {
+      const res = await userService.unfollowUser(auth.user._id, user._id)
+
+      if (res.success) {
+        user.followers.splice(user.followers.indexOf(auth.user._id), 1)
+        setFollow(false)
+      }
+    }
   }
 
   const handleCoverClick = () => {
@@ -113,6 +153,12 @@ export default function User() {
               user={user}
               loading={loading}
               onOpen={() => setOpenPicture(true)}
+            />
+            <UserActions
+              user={user}
+              follow={follow}
+              followUser={followUser}
+              unfollowUser={unfollowUser}
             />
           </Group>
           <Main>

@@ -24,15 +24,10 @@ export default function UserInfo(props: Props) {
 
   return (
     <TwitterBox>
-      {/* {props?.loading && (
+      {props?.loading && (
         <Loading>
           <ReactLoading type="spin" />
         </Loading>
-      )} */}
-      {props?.loading && (
-        <SkeletonWrapper>
-          <Skeleton />
-        </SkeletonWrapper>
       )}
       <Center>
         <Avatar hasAvatar={!!props?.user?.image} onClick={handleClickAvatar}>
@@ -87,23 +82,6 @@ const Loading = styled.div`
   background: ${theme.dark.backgroundBox};
   display: grid;
   place-items: center;
-`
-
-const SkeletonWrapper = styled.div`
-  position: absolute;
-  inset: 0;
-  border-radius: 0.5rem;
-  background: ${theme.dark.backgroundBox};
-
-  & > span {
-    height: 100%;
-    display: block;
-
-    .react-loading-skeleton {
-      height: 100%;
-      transform: translateY(-2px);
-    }
-  }
 `
 
 const Center = styled.div`

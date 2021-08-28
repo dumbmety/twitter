@@ -3,17 +3,23 @@ import theme from '../../styles/ThemeStyles'
 
 interface ITwitterBox {
   isActive?: boolean
-  variant?: 'solid' | 'outline'
   isDisabled?: boolean
+
+  color?: 'red' | 'blue' | 'green'
+  variant?: 'solid' | 'outline'
+
   children: any
+  onClick?: () => void
 }
 
 export default function TwitterBox(props: ITwitterBox) {
   return (
     <Box
       variant={props.variant || 'solid'}
+      color={props.color}
       isActive={props.isActive}
       isDisabled={props.isDisabled}
+      onClick={props.onClick}
     >
       {props.children}
     </Box>
@@ -51,7 +57,6 @@ const Box = styled.div<ITwitterBox>`
       pointer-events: none;
     `}
 
-  
   ${props =>
     props.isActive &&
     css`
@@ -62,4 +67,43 @@ const Box = styled.div<ITwitterBox>`
         color: ${theme.colors.blue} !important;
       }
     `};
+
+  ${props =>
+    props.color === 'red' &&
+    css`
+      &:hover {
+        color: ${theme.dark.text1} !important;
+        background: ${theme.colors.red};
+
+        svg {
+          fill: ${theme.dark.text1} !important;
+        }
+      }
+    `}
+
+  ${props =>
+    props.color === 'green' &&
+    css`
+      &:hover {
+        color: ${theme.dark.text1} !important;
+        background: ${theme.colors.green};
+
+        svg {
+          fill: ${theme.dark.text1} !important;
+        }
+      }
+    `}
+
+  ${props =>
+    props.color === 'blue' &&
+    css`
+      &:hover {
+        color: ${theme.dark.text1} !important;
+        background: ${theme.colors.blue};
+
+        svg {
+          fill: ${theme.dark.text1} !important;
+        }
+      }
+    `}
 `

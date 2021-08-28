@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 
 import TwitterContainer from '../components/Common/TwitterContainer'
 import UserInfo from '../components/Core/UserInfo'
-import UserActions from '../components/Core/UserActions'
+import ProfileActions from '../components/Core/ProfileActions'
 
 import * as profileAction from '../store/actions/profile'
 import * as tweetsAction from '../store/actions/tweets'
@@ -68,7 +68,7 @@ export default function Profile() {
               user={{ ...user, tweets }}
               onOpen={() => setOpenPicture(true)}
             />
-            <UserActions />
+            <ProfileActions />
           </Group>
           <Main>
             <TwitterBox>

@@ -18,6 +18,10 @@ function apiRoutes(app, passport) {
   // Tweet
   app.get('/api/tweets', tweetsController.getMyTweets)
   app.post('/api/tweets', tweetsController.create)
+
+  // Follow & Unfollow
+  app.post('/api/follow', usersController.follow)
+  app.post('/api/unfollow', usersController.unfollow)
 }
 
 module.exports = apiRoutes

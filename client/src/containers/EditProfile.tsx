@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 
 import TwitterBox from '../components/Common/TwitterBox'
 import TwitterContainer from '../components/Common/TwitterContainer'
-import UserActions from '../components/Core/UserActions'
+import UserActions from '../components/Core/ProfileActions'
 
 import * as profileAction from '../store/actions/profile'
 import theme from '../styles/ThemeStyles'

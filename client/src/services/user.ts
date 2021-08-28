@@ -11,3 +11,27 @@ export async function getUser(username: string) {
     return { success: false, message: err }
   }
 }
+
+export async function followUser(userId: string, followerId: string) {
+  try {
+    const { data } = await axios.post('/follow', { userId, followerId })
+
+    return data.error
+      ? { success: false, message: data.error }
+      : { success: true }
+  } catch (err) {
+    return { success: false, message: err }
+  }
+}
+
+export async function unfollowUser(userId: string, followerId: string) {
+  try {
+    const { data } = await axios.post('/unfollow', { userId, followerId })
+
+    return data.error
+      ? { success: false, message: data.error }
+      : { success: true }
+  } catch (err) {
+    return { success: false, message: err }
+  }
+}

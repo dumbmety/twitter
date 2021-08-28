@@ -1,58 +1,58 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Eye, Flash, People, Settings } from 'react-ionicons'
+import { Chatbubble, Notifications, Person, Share } from 'react-ionicons'
 
+import { IUser } from '../../store/state'
 import theme from '../../styles/ThemeStyles'
 import TwitterBox from '../Common/TwitterBox'
-import useAuth from '../../hooks/useAuth'
 
 type Props = {
-  activeLink?: 'activity' | 'moments' | 'friends' | 'edit'
+  user: IUser
+  follow: boolean
+
+  followUser: () => void
+  unfollowUser: () => void
 }
 
-const user_actions = [
-  {
-    url: '',
-    name: 'activity',
-    title: 'Activity',
-    icon: <Eye width="1.6rem" height="1.6rem" />
-  },
-  {
-    url: '/moments',
-    name: 'moments',
-    title: 'Moments',
-    icon: <Flash width="1.6rem" height="1.6rem" />
-  },
-  {
-    url: '/friends',
-    name: 'friends',
-    title: 'Friends',
-    icon: <People width="1.6rem" height="1.6rem" />
-  },
-  {
-    url: '/edit',
-    name: 'edit',
-    title: 'Edit Profile',
-    icon: <Settings width="1.6rem" height="1.6rem" />
-  }
-]
-
 export default function UserActions(props: Props) {
-  const { user } = useAuth()
+  const toggleFollow = async () => {
+    props.follow ? props.unfollowUser() : props.followUser()
+  }
+
+  const shareProfile = () => {
+    window.navigator.share({
+      text: props.user.name,
+      title: 'Share Profile',
+      url: window.location.href
+    })
+  }
+
+  // TODO: ADD SPINNER WHEN LOADING FOLLOW IS TRUE
 
   return (
     <Grid>
-      {user_actions.map(action => (
-        <Link to={`/${user.username}${action.url}`}>
-          <TwitterBox
-            isActive={props.activeLink === action.name}
-            variant={props.activeLink === action.name ? 'solid' : 'outline'}
-          >
-            {action.icon}
-            <Title>{action.title}</Title>
-          </TwitterBox>
-        </Link>
-      ))}
+      <TwitterBox
+        variant="outline"
+        color={props.follow ? 'red' : 'blue'}
+        onClick={toggleFollow}
+      >
+        <Person />
+        <Title>{props.follow ? 'Unfollow' : 'Follow'}</Title>
+      </TwitterBox>
+      <Link to={`/messages/${props.user.username}`}>
+        <TwitterBox variant="outline">
+          <Chatbubble />
+          <Title>Message</Title>
+        </TwitterBox>
+      </Link>
+      <TwitterBox variant="outline">
+        <Notifications />
+        <Title>Notifications</Title>
+      </TwitterBox>
+      <TwitterBox variant="outline" onClick={shareProfile}>
+        <Share />
+        <Title>Share</Title>
+      </TwitterBox>
     </Grid>
   )
 }
@@ -71,6 +71,7 @@ const Grid = styled.div`
     justify-content: center;
     flex-direction: column;
     color: ${theme.dark.text1};
+    cursor: pointer;
 
     span {
       display: grid;
