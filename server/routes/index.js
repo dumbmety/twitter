@@ -14,6 +14,7 @@ function apiRoutes(app, passport) {
   // User
   app.get('/api/users', usersController.list)
   app.get('/api/users/:username', usersController.get)
+  app.get('/api/users/random/:number', usersController.random)
 
   // Tweet
   app.get('/api/tweets', tweetsController.getMyTweets)

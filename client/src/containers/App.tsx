@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import SimpleBar from 'simplebar-react'
 import { useEffect, Suspense } from 'react'
 import { useDispatch } from 'react-redux'

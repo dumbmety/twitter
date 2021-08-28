@@ -35,3 +35,15 @@ export async function unfollowUser(userId: string, followerId: string) {
     return { success: false, message: err }
   }
 }
+
+export async function randomUsers(number: number) {
+  try {
+    const { data } = await axios.get(`/users/random/${number}`)
+
+    return data.error
+      ? { success: false, message: data.error }
+      : { success: true, users: data }
+  } catch (err) {
+    return { success: false, message: err }
+  }
+}

@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const Tweet = require('../models/tweet')
+const random = require('../utils/random')
 
 exports.list = async (req, res) => {
   try {
@@ -54,6 +55,22 @@ exports.unfollow = async (req, res) => {
     await User.findByIdAndUpdate(followerId, { $pull: { followers: userId } })
 
     return res.json({ success: true })
+  } catch (err) {
+    return res.json({ error: true, message: err })
+  }
+}
+
+exports.random = async (req, res) => {
+  const { number } = req.params
+
+  try {
+    const users = await User.find()
+    const randomNumbers = random(number, users.length)
+
+    let randomUsers = []
+    randomUsers = randomNumbers.map(number => users[number - 1])
+
+    return res.json(randomUsers)
   } catch (err) {
     return res.json({ error: true, message: err })
   }

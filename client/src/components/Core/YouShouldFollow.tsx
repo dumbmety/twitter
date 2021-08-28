@@ -1,38 +1,60 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import { Reload } from 'react-ionicons'
+import { useEffect, useState } from 'react'
 
+import * as userService from '../../services/user'
+import { IUser } from '../../store/state'
 import theme from '../../styles/ThemeStyles'
 import TwitterBox from '../Common/TwitterBox'
-import { users_suggested } from '../../constants/users'
-import TwitterButton from '../Common/TwitterButton'
-import { Link } from 'react-router-dom'
+import TwitterSpinner from '../Common/TwitterSpinner'
 
 export default function YouShouldFollow() {
+  const randomUsersNumber = 3
+
+  const [users, setUsers] = useState<IUser[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    getRandomUsers()
+  }, [])
+
+  const getRandomUsers = async () => {
+    setLoading(true)
+    setUsers([])
+
+    const res = await userService.randomUsers(randomUsersNumber)
+
+    if (res.success) setUsers(res.users)
+    setLoading(false)
+  }
+
+  let $users_content = null
+  if (users) {
+    $users_content = users.map(user => (
+      <User key={user._id}>
+        <Link to={`/user/${user.username}`}>
+          <UserInfo>
+            <img src={`/img/users/${user.image}`} alt={user.name} />
+            <div>
+              <span>{user.name}</span>
+              <span>@{user.username}</span>
+            </div>
+          </UserInfo>
+        </Link>
+      </User>
+    ))
+  }
+
   return (
     <Wrapper>
       <TwitterBox>
+        {loading && <TwitterSpinner />}
         <Header>
           <h2>You should follow</h2>
-          <Reload />
+          <Reload onClick={getRandomUsers} />
         </Header>
-        <Users>
-          {users_suggested.map(user => (
-            <User key={user.username}>
-              <Link to={`/user/${user.username}`}>
-                <UserInfo>
-                  <img src={`/img/users/${user.image}`} alt={user.name} />
-                  <div>
-                    <span>{user.name}</span>
-                    <span>@{user.username}</span>
-                  </div>
-                </UserInfo>
-              </Link>
-              <div>
-                <TwitterButton variant="outline" children="Follow" />
-              </div>
-            </User>
-          ))}
-        </Users>
+        <Users>{$users_content}</Users>
         <Action>
           <Link to="/connect-people">See all</Link>
         </Action>
@@ -44,6 +66,10 @@ export default function YouShouldFollow() {
 const Wrapper = styled.div`
   & > div {
     padding: 1rem 0;
+
+    & > div:first-child {
+      height: 280.75px;
+    }
   }
 `
 
@@ -57,6 +83,7 @@ const Header = styled.header`
 
   span {
     display: grid;
+    cursor: pointer;
     place-items: center;
   }
 
@@ -78,6 +105,7 @@ const User = styled.li`
   justify-content: space-between;
 
   button {
+    width: 6rem;
     padding: 0.5rem 1rem;
   }
 `
@@ -109,6 +137,7 @@ const Action = styled.div`
   text-align: center;
   text-transform: uppercase;
   font-size: 0.8rem;
+  user-select: none;
 
   a {
     color: ${theme.dark.text2};

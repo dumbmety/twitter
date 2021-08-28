@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
 
 import TwitterContainer from '../components/Common/TwitterContainer'
@@ -23,6 +23,7 @@ type Params = { username: string }
 
 export default function User() {
   const auth = useAuth()
+  const history = useHistory()
   const dispatch = useDispatch()
 
   const [user, setUser] = useState<IUser>({} as IUser)
@@ -39,15 +40,21 @@ export default function User() {
     return () => {
       dispatch(authAction.getUser())
     }
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    getUserProfile()
+    if (params.username === auth.user.username) {
+      history.push(`/${auth.user.username}`)
+    } else {
+      getUserProfile()
+    }
     // eslint-disable-next-line
   }, [params.username])
 
   useEffect(() => {
     setFollow(auth.user?.following?.includes(user._id) || false)
+    // eslint-disable-next-line
   }, [user])
 
   const getUserProfile = async () => {
