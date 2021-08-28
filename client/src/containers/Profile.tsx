@@ -27,7 +27,7 @@ export default function Profile() {
   const dispatch = useDispatch()
   const params: Params = useParams()
 
-  const { user } = useAuth()
+  const { loading, user } = useAuth()
   const { tweets } = useUsersTweets()
 
   useEffect(() => {
@@ -63,7 +63,11 @@ export default function Profile() {
       <TwitterContainer size="md">
         <Content>
           <Group style={{ width: 320 }}>
-            <UserInfo onOpen={() => setOpenPicture(true)} />
+            <UserInfo
+              loading={loading}
+              user={{ ...user, tweets }}
+              onOpen={() => setOpenPicture(true)}
+            />
             <UserActions />
           </Group>
           <Main>

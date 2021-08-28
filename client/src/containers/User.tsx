@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import Skeleton from 'react-loading-skeleton'
 
 import TwitterContainer from '../components/Common/TwitterContainer'
 import UserInfo from '../components/Core/UserInfo'
@@ -12,10 +13,12 @@ import theme from '../styles/ThemeStyles'
 import TwitterBox from '../components/Common/TwitterBox'
 import Tweet from '../components/Common/Tweet'
 import TwitterFullscreen from '../components/Common/TwitterFullscreen'
+import TweetSkeleton from '../components/Skeleton/TweetSkeleton'
 
 type Params = { username: string }
 
 export default function User() {
+  const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<IUser>({} as IUser)
 
   const [openCover, setOpenCover] = useState<boolean>(false)
@@ -30,20 +33,60 @@ export default function User() {
   }, [params.username])
 
   const getUserProfile = async () => {
+    setLoading(true)
     const res = await userService.getUser(params.username)
     if (res.success) setUser({ ...res.user, tweets: res.tweets })
+    setLoading(false)
   }
 
   const handleCoverClick = () => {
     if (!!user.cover) setOpenCover(true)
   }
 
+  let $cover_content = null
+  if (loading) {
+    $cover_content = <Skeleton />
+  } else {
+    if (user?.cover) {
+      $cover_content = (
+        <img src={`/img/covers/${user?.cover}`} alt={`${user?.name} Cover`} />
+      )
+    }
+  }
+
+  let $tweets_content = null
+  if (loading) {
+    $tweets_content = (
+      <>
+        <TweetSkeleton />
+        <TweetSkeleton />
+      </>
+    )
+  } else {
+    if (user?.tweets?.length !== 0) {
+      $tweets_content = user?.tweets?.map(tweet => (
+        <Tweet
+          key={tweet.id}
+          username={user?.username || ''}
+          image={user?.image || ''}
+          name={user?.name}
+          text={tweet.text}
+          likes={tweet.likes || 0}
+          replies={tweet.replies || 0}
+          retweet={tweet.retweet || 0}
+        />
+      ))
+    } else {
+      $tweets_content = (
+        <NotTwitted>{user?.name} has not tweeted yet</NotTwitted>
+      )
+    }
+  }
+
   return (
     <Wrapper>
       <Cover hasCover={!!user.cover} onClick={handleCoverClick}>
-        {user?.cover && (
-          <img src={`/img/covers/${user?.cover}`} alt={`${user?.name} Cover`} />
-        )}
+        {$cover_content}
       </Cover>
       {user?.cover && (
         <TwitterFullscreen
@@ -66,7 +109,11 @@ export default function User() {
       <TwitterContainer size="md">
         <Content>
           <Group style={{ width: 320 }}>
-            <UserInfo user={user} onOpen={() => setOpenPicture(true)} />
+            <UserInfo
+              user={user}
+              loading={loading}
+              onOpen={() => setOpenPicture(true)}
+            />
           </Group>
           <Main>
             <TwitterBox>
@@ -92,24 +139,7 @@ export default function User() {
                   </Tab>
                 </Tabs>
               </Header>
-              <ul>
-                {user?.tweets?.length !== 0 ? (
-                  user?.tweets?.map(tweet => (
-                    <Tweet
-                      key={tweet.id}
-                      username={user?.username || ''}
-                      image={user?.image || ''}
-                      name={user?.name}
-                      text={tweet.text}
-                      likes={tweet.likes || 0}
-                      replies={tweet.replies || 0}
-                      retweet={tweet.retweet || 0}
-                    />
-                  ))
-                ) : (
-                  <NotTwitted>{user?.name} has not tweeted yet</NotTwitted>
-                )}
-              </ul>
+              <Tweets>{$tweets_content}</Tweets>
             </TwitterBox>
           </Main>
         </Content>
@@ -136,6 +166,16 @@ const Cover = styled.div<ICover>`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  & > span {
+    display: block;
+    height: 100%;
+
+    .react-loading-skeleton {
+      height: 100%;
+      border-radius: 0;
+    }
   }
 `
 
@@ -200,4 +240,10 @@ const Tab = styled.li<TabProps>`
       opacity: 0.5;
       pointer-events: none;
     `}
+`
+
+const Tweets = styled.ul`
+  div {
+    box-shadow: none;
+  }
 `

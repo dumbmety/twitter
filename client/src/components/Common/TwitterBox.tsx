@@ -23,6 +23,7 @@ export default function TwitterBox(props: ITwitterBox) {
 const Box = styled.div<ITwitterBox>`
   padding: 0.5rem;
   border-radius: 0.5rem;
+  position: relative;
   border: 1px solid transparent;
   transition: ${theme.transition.ease};
   background: ${props =>

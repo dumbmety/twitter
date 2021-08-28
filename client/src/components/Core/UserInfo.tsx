@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import ReactLoading from 'react-loading'
+import Skeleton from 'react-loading-skeleton'
 import { LocationOutline } from 'react-ionicons'
 
 import theme from '../../styles/ThemeStyles'
@@ -6,53 +8,52 @@ import TwitterBox from '../Common/TwitterBox'
 
 import { IUser } from '../../store/state'
 import { useUsersTweets } from '../../hooks/tweets'
-import useAuth from '../../hooks/useAuth'
 
 type Props = {
-  user?: IUser
+  user: IUser
+  loading: boolean
   onOpen: () => void
 }
 
 export default function UserInfo(props: Props) {
-  const { user } = useAuth()
   const { tweetsCount } = useUsersTweets()
 
   const handleClickAvatar = () => {
-    if (!!props?.user?.image || !!user.image) props.onOpen()
+    if (!!props?.user?.image) props.onOpen()
   }
 
   return (
     <TwitterBox>
+      {/* {props?.loading && (
+        <Loading>
+          <ReactLoading type="spin" />
+        </Loading>
+      )} */}
+      {props?.loading && (
+        <SkeletonWrapper>
+          <Skeleton />
+        </SkeletonWrapper>
+      )}
       <Center>
-        <Avatar
-          hasAvatar={!!props?.user?.image || !!user.image}
-          onClick={handleClickAvatar}
-        >
-          <img
-            src={`/img/users/${
-              props?.user?.image || user.image || 'not_found.jpg'
-            }`}
-            alt={`${props?.user?.name || user.name} Cover`}
-          />
+        <Avatar hasAvatar={!!props?.user?.image} onClick={handleClickAvatar}>
+          {props?.user ? (
+            <img
+              src={`/img/users/${props?.user?.image || 'not_found.jpg'}`}
+              alt={`${props?.user?.name} Cover`}
+            />
+          ) : (
+            <Skeleton />
+          )}
         </Avatar>
         <Name>
-          <h2>{props?.user?.name || user.name}</h2>
-          <p>@{props?.user?.username || user.username}</p>
+          <h2>{props?.user?.name}</h2>
+          <p>@{props?.user?.username}</p>
         </Name>
-        {props?.user ? (
-          props?.user?.location ? (
-            <Location>
-              <LocationOutline width="1.5rem" />
-              <p>{props?.user?.location}</p>
-            </Location>
-          ) : null
-        ) : (
-          user.location && (
-            <Location>
-              <LocationOutline width="1.5rem" />
-              <p>{user.location}</p>
-            </Location>
-          )
+        {props?.user?.location && (
+          <Location>
+            <LocationOutline width="1.5rem" />
+            <p>{props?.user?.location}</p>
+          </Location>
         )}
         <List>
           <Item>
@@ -63,19 +64,11 @@ export default function UserInfo(props: Props) {
           </Item>
           <Item>
             <Title>Followers</Title>
-            <Value>
-              {props?.user
-                ? props?.user?.followers?.length
-                : user?.followers?.length}
-            </Value>
+            <Value>{props?.user && props?.user?.followers?.length}</Value>
           </Item>
           <Item>
             <Title>Following</Title>
-            <Value>
-              {props?.user
-                ? props?.user?.following?.length
-                : user?.following?.length}
-            </Value>
+            <Value>{props?.user && props?.user?.following?.length}</Value>
           </Item>
         </List>
       </Center>
@@ -86,6 +79,32 @@ export default function UserInfo(props: Props) {
 interface IAvatar {
   hasAvatar?: boolean
 }
+
+const Loading = styled.div`
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  background: ${theme.dark.backgroundBox};
+  display: grid;
+  place-items: center;
+`
+
+const SkeletonWrapper = styled.div`
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  background: ${theme.dark.backgroundBox};
+
+  & > span {
+    height: 100%;
+    display: block;
+
+    .react-loading-skeleton {
+      height: 100%;
+      transform: translateY(-2px);
+    }
+  }
+`
 
 const Center = styled.div`
   display: flex;
@@ -107,6 +126,16 @@ const Avatar = styled.div<IAvatar>`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  & > span {
+    height: 100%;
+    display: block;
+
+    .react-loading-skeleton {
+      height: 100%;
+      transform: translateY(-2px);
+    }
   }
 `
 
