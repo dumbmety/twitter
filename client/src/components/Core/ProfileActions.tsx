@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Eye, Flash, People, Settings } from 'react-ionicons'
+import { Eye, LogOut, People, Settings } from 'react-ionicons'
 
 import theme from '../../styles/ThemeStyles'
 import TwitterBox from '../Common/TwitterBox'
@@ -18,16 +18,16 @@ const user_actions = [
     icon: <Eye width="1.6rem" height="1.6rem" />
   },
   {
-    url: '/moments',
-    name: 'moments',
-    title: 'Moments',
-    icon: <Flash width="1.6rem" height="1.6rem" />
-  },
-  {
     url: '/friends',
     name: 'friends',
     title: 'Friends',
     icon: <People width="1.6rem" height="1.6rem" />
+  },
+  {
+    url: '/logout',
+    name: 'logout',
+    title: 'Logout',
+    icon: <LogOut width="1.6rem" height="1.6rem" />
   },
   {
     url: '/edit',
@@ -43,7 +43,7 @@ export default function ProfileActions(props: Props) {
   return (
     <Grid>
       {user_actions.map(action => (
-        <Link to={`/${user.username}${action.url}`}>
+        <Link key={action.name} to={`/${user.username}${action.url}`}>
           <TwitterBox
             isActive={props.activeLink === action.name}
             variant={props.activeLink === action.name ? 'solid' : 'outline'}

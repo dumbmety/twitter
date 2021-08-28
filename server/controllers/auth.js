@@ -7,8 +7,9 @@ exports.user = (req, res) => {
     : res.json({ message: 'User is not login' })
 }
 
-exports.logout = req => {
+exports.logout = (req, res) => {
   req?.logout()
+  res.json({ success: true })
 }
 
 exports.login = (req, res, next, passport) => {

@@ -14,6 +14,8 @@ function apiRoutes(app, passport) {
   // User
   app.get('/api/users', usersController.list)
   app.get('/api/users/:username', usersController.get)
+  app.put('/api/users/:id', usersController.update)
+  app.delete('/api/users/:id/remove-cover', usersController.removeCover)
   app.get('/api/users/random/:number', usersController.random)
 
   // Tweet

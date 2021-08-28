@@ -37,6 +37,18 @@ export async function login({ email, password }: IUserLogin) {
   }
 }
 
+export async function logout() {
+  try {
+    const { data } = await axios.post('/logout')
+
+    return data.error
+      ? { success: false, message: data.message }
+      : { success: true }
+  } catch (err) {
+    return err
+  }
+}
+
 export async function register({
   name,
   username,

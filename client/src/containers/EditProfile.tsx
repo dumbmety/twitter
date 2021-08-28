@@ -2,31 +2,24 @@ import styled from 'styled-components'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { Camera, CloseCircle } from 'react-ionicons'
 
+import EditProfileForm from '../components/Forms/EditProfileForm'
 import TwitterBox from '../components/Common/TwitterBox'
 import TwitterContainer from '../components/Common/TwitterContainer'
 import UserActions from '../components/Core/ProfileActions'
 
+import * as userService from '../services/user'
 import * as profileAction from '../store/actions/profile'
 import theme from '../styles/ThemeStyles'
 import useAuth from '../hooks/useAuth'
-import { Formik } from 'formik'
 
 type Params = { username: string }
 
 export default function EditProfile() {
+  const { user } = useAuth()
   const dispatch = useDispatch()
   const params: Params = useParams()
-
-  const { user } = useAuth()
-
-  const initialValues = {
-    name: user.name || '',
-    bio: user.bio || '',
-    location: user.location || '',
-    website: user.website || '',
-    birthday: user.birthday || ''
-  }
 
   useEffect(() => {
     dispatch(profileAction.getUserProfile(params.username))
@@ -35,9 +28,22 @@ export default function EditProfile() {
   return (
     <Wrapper>
       <Cover hasCover={!!user.cover}>
+        <CoverOverlay />
         {user?.cover && (
           <img src={`/img/covers/${user?.cover}`} alt={`${user?.name} Cover`} />
         )}
+        <CoverActions>
+          <Camera />
+          <CloseCircle
+            onClick={async () => {
+              if (!user.cover) return
+
+              const res = await userService.removeCover(user?._id)
+              if (res.success)
+                dispatch(profileAction.getUserProfile(params.username))
+            }}
+          />
+        </CoverActions>
       </Cover>
       <TwitterContainer size="md">
         <Content>
@@ -45,10 +51,12 @@ export default function EditProfile() {
             <TwitterBox>
               <Center>
                 <Avatar>
+                  <AvatarOverlay />
                   <img
                     src={`/img/users/${user.image || 'not_found.jpg'}`}
                     alt={`${user.name} Cover`}
                   />
+                  <Camera />
                 </Avatar>
                 <Username>@{user.username}</Username>
               </Center>
@@ -57,9 +65,7 @@ export default function EditProfile() {
           </Group>
           <Group style={{ flex: '1' }}>
             <TwitterBox>
-              <Formik initialValues={initialValues} onSubmit={() => {}}>
-                {/* TODO: MAKE EDIT PROFILE FORM */}
-              </Formik>
+              <EditProfileForm />
             </TwitterBox>
           </Group>
         </Content>
@@ -78,6 +84,7 @@ const Cover = styled.div<ICover>`
   width: 100%;
   height: 17rem;
   overflow: hidden;
+  position: relative;
   background: ${theme.colors.blue};
 
   ${props => props.hasCover && `cursor: pointer;`}
@@ -86,6 +93,44 @@ const Cover = styled.div<ICover>`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+`
+
+const CoverOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+`
+
+const CoverActions = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  gap: 1rem;
+  transform: translate(-50%, -50%);
+
+  span {
+    cursor: pointer;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition: ${theme.transition.ease};
+
+    svg {
+      color: #ffffff;
+      fill: #ffffff;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.2);
+    }
   }
 `
 
@@ -114,12 +159,43 @@ const Avatar = styled.div`
   height: 5rem;
   overflow: hidden;
   border-radius: 50%;
+  position: relative;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
+  span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0.25rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: ${theme.transition.ease};
+
+    svg {
+      color: #ffffff;
+      fill: #ffffff;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+`
+
+const AvatarOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
 `
 
 const Username = styled.p`

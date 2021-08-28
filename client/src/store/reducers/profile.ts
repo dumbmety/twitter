@@ -21,6 +21,12 @@ export function profileReducer(state = initialState, action: Action) {
       return { loading: false, user: action.user, isExist: true }
     case types.GET_USER_PROFILE_FAILURE:
       return { loading: false, user: {}, error: action.error, isExist: false }
+    case types.UPDATE_USER_PROFILE_REQUEST:
+      return { loading: true }
+    case types.UPDATE_USER_PROFILE_SUCCESS:
+      return { loading: false, user: action.user }
+    case types.UPDATE_USER_PROFILE_FAILURE:
+      return { loading: false, error: action.error }
     default:
       return state
   }

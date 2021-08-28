@@ -24,6 +24,36 @@ exports.get = async (req, res) => {
   }
 }
 
+exports.update = async (req, res) => {
+  const { id } = req.params
+  const { name, bio, location, website, birthday } = req.body
+
+  try {
+    const user = await User.findByIdAndUpdate(id, {
+      name,
+      bio,
+      location,
+      website,
+      birthday
+    })
+
+    return res.json(user)
+  } catch (err) {
+    return res.json({ error: true, message: err })
+  }
+}
+
+exports.removeCover = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const user = await User.findByIdAndUpdate(id, { cover: '' })
+    return res.json(user)
+  } catch (err) {
+    return res.json({ error: true, message: err })
+  }
+}
+
 exports.follow = async (req, res) => {
   const { userId, followerId } = req.body
 
