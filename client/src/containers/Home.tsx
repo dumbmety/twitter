@@ -43,14 +43,15 @@ export default function Home() {
       $tweets_content = tweets
         .map(({ tweet, user }) => (
           <Tweet
-            key={tweet.id}
+            key={tweet._id}
+            id={tweet._id}
             text={tweet.text}
             image={user.image || ''}
             name={user.name}
             username={user.username || ''}
             replies={tweet.replies || 0}
             retweet={tweet.retweet || 0}
-            likes={tweet.likes || 0}
+            likes={tweet.likes}
           />
         ))
         .reverse()

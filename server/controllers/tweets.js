@@ -69,3 +69,22 @@ exports.create = async (req, res) => {
     return res.json({ error: true, message: 'Something went wrong' })
   }
 }
+
+exports.updateLike = async (req, res) => {
+  const tweetId = req.params.id
+  const userId = req.user._id.toString()
+
+  if (!req.user) {
+    return res.json({ error: true, message: 'User is not logged in' })
+  }
+
+  try {
+    req.body.liked
+      ? await Tweet.findByIdAndUpdate(tweetId, { $pull: { likes: userId } })
+      : await Tweet.findByIdAndUpdate(tweetId, { $push: { likes: userId } })
+
+    return res.json({ success: true })
+  } catch (err) {
+    return res.json({ error: true, message: 'Something went wrong' })
+  }
+}

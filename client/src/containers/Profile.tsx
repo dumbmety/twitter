@@ -99,12 +99,13 @@ export default function Profile() {
                   tweets
                     ?.map(tweet => (
                       <Tweet
-                        key={tweet.id}
+                        key={tweet._id}
+                        id={tweet._id}
                         username={user?.username || ''}
                         image={user?.image || ''}
                         name={user?.name}
                         text={tweet.text}
-                        likes={tweet.likes || 0}
+                        likes={tweet.likes}
                         replies={tweet.replies || 0}
                         retweet={tweet.retweet || 0}
                       />

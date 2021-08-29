@@ -35,3 +35,15 @@ export async function createTweet(text: string) {
     return { success: false, message: err }
   }
 }
+
+export async function updateLikeStatusTweet(tweetId: string, liked: boolean) {
+  try {
+    const { data } = await axios.post(`/tweets/${tweetId}/like`, { liked })
+
+    return data.error
+      ? { success: false, message: data.error }
+      : { success: true }
+  } catch (err) {
+    return { success: false, message: err }
+  }
+}

@@ -1,38 +1,57 @@
 import styled, { css } from 'styled-components'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ChatboxOutline,
+  Heart,
   HeartOutline,
   RepeatOutline,
   ShareSocialOutline
 } from 'react-ionicons'
 
+import * as tweetService from '../../services/tweet'
 import useAuth from '../../hooks/useAuth'
 import theme from '../../styles/ThemeStyles'
 import TwitterBox from './TwitterBox'
 import TwitterCard from './TwitterCard'
 
 interface ITweet {
+  id: string
   username: string
   text: string
   image: string
   name: string
 
-  likes: number
+  likes: string[]
   replies: number
   retweet: number
 }
 
 type ActionProps = {
+  isActive?: boolean
   actionColor: 'red' | 'green' | 'blue'
 }
 
 export default function Tweet(props: ITweet) {
   const { user } = useAuth()
+
+  const [type, setType] = useState<'add' | 'sub' | ''>('')
+  const [liked, setLiked] = useState<boolean>(props.likes?.includes(user._id))
+
   const url =
     user.username === props.username
       ? `/${props.username}`
       : `/user/${props.username}`
+
+  const likeStatusTweet = async () => {
+    await tweetService.updateLikeStatusTweet(props.id, liked)
+
+    liked
+      ? props.likes.splice(props.likes.indexOf(user._id), 1)
+      : props.likes.push(user._id)
+
+    setLiked(!liked)
+  }
 
   return (
     <Wrapper>
@@ -59,9 +78,13 @@ export default function Tweet(props: ITweet) {
               <RepeatOutline />
               {props.retweet}
             </Action>
-            <Action actionColor="red">
-              <HeartOutline />
-              {props.likes}
+            <Action
+              isActive={liked}
+              actionColor="red"
+              onClick={likeStatusTweet}
+            >
+              {liked ? <Heart /> : <HeartOutline />}
+              <span>{props.likes?.length || 0}</span>
             </Action>
             <Action actionColor="blue">
               <ShareSocialOutline />
@@ -134,7 +157,7 @@ const Footer = styled.footer`
 
 const Action = styled.div<ActionProps>`
   flex: 1;
-  gap: 1rem;
+  gap: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -149,6 +172,11 @@ const Action = styled.div<ActionProps>`
   span {
     display: grid;
     place-items: center;
+    text-align: center;
+
+    &:last-child {
+      min-width: 20px;
+    }
   }
 
   svg {
@@ -194,4 +222,16 @@ const Action = styled.div<ActionProps>`
         }
       `}
   }
+
+  ${props =>
+    props.isActive &&
+    props.actionColor === 'red' &&
+    css`
+      color: ${theme.colors.red};
+
+      svg {
+        fill: ${theme.colors.red};
+        color: ${theme.colors.red};
+      }
+    `}
 `

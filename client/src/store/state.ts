@@ -19,9 +19,10 @@ export interface IUser {
 }
 
 export interface ITweet {
-  id: string
+  _id: string
   text: string
-  likes: number
+
+  likes: string[]
   replies: number
   retweet: number
 }
