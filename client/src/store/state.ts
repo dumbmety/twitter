@@ -26,6 +26,11 @@ export interface ITweet {
   retweet: number
 }
 
+export interface IHomeTweets {
+  tweet: ITweet
+  user: IUser
+}
+
 export interface RootState {
   authorize: {
     loading: boolean
@@ -51,5 +56,11 @@ export interface RootState {
     loading: boolean
     error: string
     tweets: ITweet[]
+  }
+
+  homeTweets: {
+    loading: boolean
+    error: string
+    tweets: IHomeTweets[]
   }
 }

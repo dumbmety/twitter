@@ -95,8 +95,12 @@ exports.random = async (req, res) => {
 
   try {
     const users = await User.find()
-    const randomNumbers = random(number, users.length)
+    const userIndex = users.findIndex(
+      user => user._id.toString() === req.user._id.toString()
+    )
+    users.splice(userIndex, 1)
 
+    const randomNumbers = random(number, users.length)
     let randomUsers = []
     randomUsers = randomNumbers.map(number => users[number - 1])
 

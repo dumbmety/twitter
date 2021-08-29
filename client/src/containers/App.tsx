@@ -19,6 +19,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(authAction.getUser())
+    dispatch(authAction.getHomeTweets())
     // eslint-disable-next-line
   }, [])
 

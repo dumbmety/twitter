@@ -7,7 +7,7 @@ import theme from '../../styles/ThemeStyles'
 import TwitterBox from '../Common/TwitterBox'
 
 import { IUser } from '../../store/state'
-import { useUsersTweets } from '../../hooks/tweets'
+import { useUsersTweets } from '../../hooks/useTweets'
 
 type Props = {
   user: IUser

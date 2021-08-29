@@ -1,15 +1,16 @@
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
-
-import theme from '../../styles/ThemeStyles'
-import TwitterBox from './TwitterBox'
-import TwitterCard from './TwitterCard'
 import {
   ChatboxOutline,
   HeartOutline,
   RepeatOutline,
   ShareSocialOutline
 } from 'react-ionicons'
+
+import useAuth from '../../hooks/useAuth'
+import theme from '../../styles/ThemeStyles'
+import TwitterBox from './TwitterBox'
+import TwitterCard from './TwitterCard'
 
 interface ITweet {
   username: string
@@ -27,7 +28,11 @@ type ActionProps = {
 }
 
 export default function Tweet(props: ITweet) {
-  const url = `/user/${props.username}`
+  const { user } = useAuth()
+  const url =
+    user.username === props.username
+      ? `/${props.username}`
+      : `/user/${props.username}`
 
   return (
     <Wrapper>

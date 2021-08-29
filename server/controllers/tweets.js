@@ -1,4 +1,5 @@
-const Tweet = require('../models/tweet.js')
+const User = require('../models/user')
+const Tweet = require('../models/tweet')
 
 exports.list = async (req, res) => {
   try {
@@ -26,6 +27,30 @@ exports.getMyTweets = async (req, res) => {
   try {
     const tweets = await Tweet.find({ user: id })
     return res.json(tweets)
+  } catch (err) {
+    return res.json({ error: true, message: err })
+  }
+}
+
+exports.timeline = async (req, res) => {
+  const { _id: id, following } = req.user
+
+  try {
+    const tweets = await Tweet.find()
+    const timelineTweets = []
+
+    for (const tweet of tweets) {
+      const user = await User.findById(tweet.user)
+
+      const isUser = id.toString() === tweet.user.toString()
+      const isFollow = following.includes(tweet.user.toString())
+
+      if (isFollow || isUser) {
+        timelineTweets.push({ tweet, user })
+      }
+    }
+
+    return res.json(timelineTweets)
   } catch (err) {
     return res.json({ error: true, message: err })
   }

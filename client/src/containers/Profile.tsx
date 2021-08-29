@@ -14,7 +14,7 @@ import theme from '../styles/ThemeStyles'
 import useAuth from '../hooks/useAuth'
 import TwitterBox from '../components/Common/TwitterBox'
 import Tweet from '../components/Common/Tweet'
-import { useUsersTweets } from '../hooks/tweets'
+import { useUsersTweets } from '../hooks/useTweets'
 import TwitterFullscreen from '../components/Common/TwitterFullscreen'
 
 type Params = { username: string }
@@ -96,18 +96,20 @@ export default function Profile() {
               </Header>
               <ul>
                 {tweets?.length !== 0 ? (
-                  tweets?.map(tweet => (
-                    <Tweet
-                      key={tweet.id}
-                      username={user?.username || ''}
-                      image={user?.image || ''}
-                      name={user?.name}
-                      text={tweet.text}
-                      likes={tweet.likes || 0}
-                      replies={tweet.replies || 0}
-                      retweet={tweet.retweet || 0}
-                    />
-                  ))
+                  tweets
+                    ?.map(tweet => (
+                      <Tweet
+                        key={tweet.id}
+                        username={user?.username || ''}
+                        image={user?.image || ''}
+                        name={user?.name}
+                        text={tweet.text}
+                        likes={tweet.likes || 0}
+                        replies={tweet.replies || 0}
+                        retweet={tweet.retweet || 0}
+                      />
+                    ))
+                    .reverse()
                 ) : (
                   <NotTwitted>{user?.name} has not tweeted yet</NotTwitted>
                 )}

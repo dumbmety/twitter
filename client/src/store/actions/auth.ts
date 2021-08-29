@@ -1,6 +1,8 @@
 import { Dispatch } from 'redux'
 import * as types from '../types'
+
 import * as authService from '../../services/auth'
+import * as tweetService from '../../services/tweet'
 
 interface User {
   email: string
@@ -25,6 +27,20 @@ export const getUser = () => async (dispatch: Dispatch) => {
       : dispatch({ type: types.GET_AUTHORIZE_USER_FAILURE, error: res.message })
   } catch (error) {
     dispatch({ type: types.GET_AUTHORIZE_USER_FAILURE, error })
+  }
+}
+
+export const getHomeTweets = () => async (dispatch: Dispatch) => {
+  dispatch({ type: types.GET_HOME_TWEETS_REQUEST })
+
+  try {
+    const res = await tweetService.getHomeTweets()
+
+    res.success
+      ? dispatch({ type: types.GET_HOME_TWEETS_SUCCESS, tweets: res.tweets })
+      : dispatch({ type: types.GET_HOME_TWEETS_FAILURE, error: res.message })
+  } catch (error) {
+    dispatch({ type: types.GET_HOME_TWEETS_FAILURE, error })
   }
 }
 

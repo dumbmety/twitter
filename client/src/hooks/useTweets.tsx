@@ -11,3 +11,13 @@ export function useUsersTweets() {
     tweetsCount: userTweets.tweets.length
   }
 }
+
+export function useHomeTweets() {
+  const homeTweets = useSelector((state: RootState) => state.homeTweets)
+
+  return {
+    loading: homeTweets.loading,
+    error: homeTweets.error,
+    tweets: homeTweets.tweets
+  }
+}

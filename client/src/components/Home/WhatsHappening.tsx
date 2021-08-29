@@ -1,27 +1,46 @@
 import styled from 'styled-components'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CalendarOutline, HappyOutline, ImageOutline } from 'react-ionicons'
 
+import * as authAction from '../../store/actions/auth'
+import * as tweetService from '../../services/tweet'
 import { RootState } from '../../store/state'
 import theme from '../../styles/ThemeStyles'
 import TwitterBox from '../Common/TwitterBox'
 import TwitterButton from '../Common/TwitterButton'
 
 export default function WhatsHappening() {
+  const dispatch = useDispatch()
   const { user } = useSelector((state: RootState) => state.authorize)
+
+  const [text, setText] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const createTweet = async () => {
+    setText('')
+    setLoading(true)
+    await tweetService.createTweet(text)
+    setLoading(false)
+    dispatch(authAction.getHomeTweets())
+  }
 
   return (
     <TwitterBox>
       <Wrapper>
-        <Link to={`/user/${user?.username}`}>
+        <Link to={`/${user?.username}`}>
           <Profile
             src={`/img/users/${user.image || 'not_found.jpg'}`}
             alt={user?.name}
           />
         </Link>
         <div>
-          <TextArea placeholder="What's happening?" />
+          <TextArea
+            value={text}
+            onChange={e => setText(e.target.value)}
+            placeholder="What's happening?"
+          />
           <Divider />
           <Footer>
             <Actions>
@@ -29,7 +48,11 @@ export default function WhatsHappening() {
               <HappyOutline />
               <CalendarOutline />
             </Actions>
-            <TwitterButton disabled variant="solid">
+            <TwitterButton
+              disabled={loading || text.length === 0}
+              variant="solid"
+              onClick={createTweet}
+            >
               Tweet
             </TwitterButton>
           </Footer>

@@ -20,6 +20,7 @@ function apiRoutes(app, passport) {
 
   // Tweet
   app.get('/api/tweets', tweetsController.getMyTweets)
+  app.get('/api/tweets/timeline', tweetsController.timeline)
   app.post('/api/tweets', tweetsController.create)
 
   // Follow & Unfollow

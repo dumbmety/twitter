@@ -8,14 +8,15 @@ import {
   registerReducer
 } from './reducers/auth'
 import { profileReducer } from './reducers/profile'
-import { userTweetsReducer } from './reducers/tweet'
+import { userTweetsReducer, homeTweetsReducer } from './reducers/tweet'
 
 const reducer = combineReducers({
   authorize: authorizeReducer,
   login: loginReducer,
   profile: profileReducer,
   register: registerReducer,
-  userTweets: userTweetsReducer
+  userTweets: userTweetsReducer,
+  homeTweets: homeTweetsReducer
 })
 
 const initialState = {}
