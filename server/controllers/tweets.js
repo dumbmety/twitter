@@ -1,12 +1,12 @@
-const User = require('../models/user')
-const Tweet = require('../models/tweet')
+const User = require("../models/user")
+const Tweet = require("../models/tweet")
 
 exports.list = async (req, res) => {
   try {
     const tweets = await Tweet.find()
     return res.json(tweets)
   } catch (err) {
-    return res.json({ error: true, message: 'Something went wrong' })
+    return res.json({ error: true, message: "Something went wrong" })
   }
 }
 
@@ -17,7 +17,7 @@ exports.get = async (req, res) => {
     const tweet = await Tweet.findOne({ id })
     return res.json(tweet)
   } catch (err) {
-    return res.json({ error: true, message: 'Something went wrong' })
+    return res.json({ error: true, message: "Something went wrong" })
   }
 }
 
@@ -33,6 +33,9 @@ exports.getMyTweets = async (req, res) => {
 }
 
 exports.timeline = async (req, res) => {
+  if (!req.user)
+    return res.json({ success: false, error: "User is not logged in" })
+
   const { _id: id, following } = req.user
 
   try {
@@ -58,7 +61,7 @@ exports.timeline = async (req, res) => {
 
 exports.create = async (req, res) => {
   if (!req.user) {
-    return res.json({ error: true, message: 'User is not logged in' })
+    return res.json({ error: true, message: "User is not logged in" })
   }
 
   try {
@@ -66,7 +69,7 @@ exports.create = async (req, res) => {
     const tweet = await Tweet.create(newTweet)
     return res.json(tweet)
   } catch (err) {
-    return res.json({ error: true, message: 'Something went wrong' })
+    return res.json({ error: true, message: "Something went wrong" })
   }
 }
 
@@ -75,7 +78,7 @@ exports.updateLike = async (req, res) => {
   const userId = req.user._id.toString()
 
   if (!req.user) {
-    return res.json({ error: true, message: 'User is not logged in' })
+    return res.json({ error: true, message: "User is not logged in" })
   }
 
   try {
@@ -85,6 +88,6 @@ exports.updateLike = async (req, res) => {
 
     return res.json({ success: true })
   } catch (err) {
-    return res.json({ error: true, message: 'Something went wrong' })
+    return res.json({ error: true, message: "Something went wrong" })
   }
 }

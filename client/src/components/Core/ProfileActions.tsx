@@ -1,52 +1,49 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { Eye, LogOut, People, Settings } from 'react-ionicons'
+import styled from "styled-components"
+import { Link } from "react-router-dom"
+import { Eye, LogOut, People, Settings } from "react-ionicons"
 
-import theme from '../../styles/ThemeStyles'
-import TwitterBox from '../Common/TwitterBox'
-import useAuth from '../../hooks/useAuth'
+import theme from "../../styles/ThemeStyles"
+import TwitterBox from "../Common/TwitterBox"
 
 type Props = {
-  activeLink?: 'activity' | 'moments' | 'friends' | 'edit'
+  activeLink?: "activity" | "moments" | "friends" | "edit"
 }
 
 const user_actions = [
   {
-    url: '',
-    name: 'activity',
-    title: 'Activity',
-    icon: <Eye width="1.6rem" height="1.6rem" />
+    url: "",
+    name: "activity",
+    title: "Activity",
+    icon: <Eye width="1.6rem" height="1.6rem" />,
   },
   {
-    url: '/friends',
-    name: 'friends',
-    title: 'Friends',
-    icon: <People width="1.6rem" height="1.6rem" />
+    url: "/friends",
+    name: "friends",
+    title: "Friends",
+    icon: <People width="1.6rem" height="1.6rem" />,
   },
   {
-    url: '/logout',
-    name: 'logout',
-    title: 'Logout',
-    icon: <LogOut width="1.6rem" height="1.6rem" />
+    url: "/logout",
+    name: "logout",
+    title: "Logout",
+    icon: <LogOut width="1.6rem" height="1.6rem" />,
   },
   {
-    url: '/edit',
-    name: 'edit',
-    title: 'Edit Profile',
-    icon: <Settings width="1.6rem" height="1.6rem" />
-  }
+    url: "/edit",
+    name: "edit",
+    title: "Edit Profile",
+    icon: <Settings width="1.6rem" height="1.6rem" />,
+  },
 ]
 
 export default function ProfileActions(props: Props) {
-  const { user } = useAuth()
-
   return (
     <Grid>
       {user_actions.map(action => (
-        <Link key={action.name} to={`/${user.username}${action.url}`}>
+        <Link key={action.name} to={`/profile${action.url}`}>
           <TwitterBox
             isActive={props.activeLink === action.name}
-            variant={props.activeLink === action.name ? 'solid' : 'outline'}
+            variant={props.activeLink === action.name ? "solid" : "outline"}
           >
             {action.icon}
             <Title>{action.title}</Title>

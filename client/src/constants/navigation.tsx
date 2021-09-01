@@ -4,52 +4,61 @@ import {
   Document,
   Home,
   Mail,
-  Notifications
-} from 'react-ionicons'
+  Notifications,
+  Person,
+} from "react-ionicons"
 
 interface INavLink {
   name: string
   path: string
   icon: any
+  haveBadge?: boolean
   disabled?: boolean
 }
 
 const navigation: INavLink[] = [
   {
-    name: 'Home',
-    path: '/',
-    icon: <Home />
+    name: "Home",
+    path: "/",
+    icon: <Home />,
   },
   {
-    name: 'Explore',
-    path: '/explore',
+    name: "Explore",
+    path: "/explore",
     icon: <Compass />,
-    disabled: true
+    disabled: true,
   },
   {
-    name: 'Notifications',
-    path: '/notifications',
+    name: "Notifications",
+    path: "/notifications",
     icon: <Notifications />,
-    disabled: true
+    haveBadge: true,
+    disabled: false,
   },
   {
-    name: 'Messages',
-    path: '/messages',
+    name: "Messages",
+    path: "/messages",
     icon: <Mail />,
-    disabled: true
+    disabled: true,
   },
   {
-    name: 'Bookmarks',
-    path: '/bookmarks',
+    name: "Bookmarks",
+    path: "/bookmarks",
     icon: <Bookmark />,
-    disabled: true
+    disabled: true,
   },
   {
-    name: 'Lists',
-    path: '/lists',
+    name: "Lists",
+    path: "/lists",
     icon: <Document />,
-    disabled: true
-  }
+    disabled: true,
+  },
+  {
+    name: "Profile",
+    path: "/profile",
+    icon: <Person />,
+    disabled: false,
+  },
 ]
 
 export default navigation

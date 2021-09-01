@@ -32,6 +32,14 @@ export interface IHomeTweets {
   user: IUser
 }
 
+export interface INotification {
+  read: boolean
+  text: string
+  to: IUser[]
+  from: IUser
+  verb: "notif" | "like" | "follow" | "mention"
+}
+
 export interface RootState {
   authorize: {
     loading: boolean
@@ -63,5 +71,11 @@ export interface RootState {
     loading: boolean
     error: string
     tweets: IHomeTweets[]
+  }
+
+  notifications: {
+    loading: boolean
+    error: string
+    notifications: INotification[]
   }
 }

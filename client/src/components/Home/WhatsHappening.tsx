@@ -1,27 +1,32 @@
-import styled from 'styled-components'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { CalendarOutline, HappyOutline, ImageOutline } from 'react-ionicons'
+import styled from "styled-components"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { CalendarOutline, HappyOutline, ImageOutline } from "react-ionicons"
 
-import * as authAction from '../../store/actions/auth'
-import * as tweetService from '../../services/tweet'
-import { RootState } from '../../store/state'
-import theme from '../../styles/ThemeStyles'
-import TwitterBox from '../Common/TwitterBox'
-import TwitterButton from '../Common/TwitterButton'
+import * as authAction from "../../store/actions/auth"
+import * as tweetService from "../../services/tweet"
+import * as notificationService from "../../services/notification"
+
+import { RootState } from "../../store/state"
+import theme from "../../styles/ThemeStyles"
+import TwitterBox from "../Common/TwitterBox"
+import TwitterButton from "../Common/TwitterButton"
 
 export default function WhatsHappening() {
   const dispatch = useDispatch()
   const { user } = useSelector((state: RootState) => state.authorize)
 
-  const [text, setText] = useState<string>('')
+  const [text, setText] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
 
   const createTweet = async () => {
-    setText('')
+    setText("")
     setLoading(true)
-    await tweetService.createTweet(text)
+
+    const { tweet } = await tweetService.createTweet(text)
+    await notificationService.addNotification(text, tweet._id)
+
     setLoading(false)
     dispatch(authAction.getHomeTweets())
   }
@@ -29,9 +34,9 @@ export default function WhatsHappening() {
   return (
     <TwitterBox>
       <Wrapper>
-        <Link to={`/${user?.username}`}>
+        <Link to="/profile">
           <Profile
-            src={`/img/users/${user.image || 'not_found.jpg'}`}
+            src={`/img/users/${user.image || "not_found.jpg"}`}
             alt={user?.name}
           />
         </Link>

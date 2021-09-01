@@ -1,12 +1,18 @@
-import { useSelector } from 'react-redux'
-import { RootState } from '../store/state'
+import { useSelector } from "react-redux"
+import { RootState } from "../store/state"
 
 export default function useAuth() {
-  const authorize = useSelector((state: RootState) => state.authorize)
+  const { authorize, notifications } = useSelector((state: RootState) => state)
+
+  const unreadNotification = notifications.notifications?.filter(
+    notification => !notification.read
+  )
 
   return {
     loading: authorize.loading,
     user: authorize.user,
-    isLogin: authorize.hasUser
+    isLogin: authorize.hasUser,
+    notifications,
+    unreadNotification,
   }
 }

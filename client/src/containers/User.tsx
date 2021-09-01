@@ -45,7 +45,7 @@ export default function User() {
 
   useEffect(() => {
     if (params.username === auth.user.username) {
-      history.push(`/${auth.user.username}`)
+      history.push("/profile")
     } else {
       getUserProfile()
     }

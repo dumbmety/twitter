@@ -1,11 +1,11 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { Search } from 'react-ionicons'
-import { useSelector } from 'react-redux'
+import styled from "styled-components"
+import { Link } from "react-router-dom"
+import { Search } from "react-ionicons"
+import { useSelector } from "react-redux"
 
-import { RootState } from '../../store/state'
-import theme from '../../styles/ThemeStyles'
-import TwitterContainer from './TwitterContainer'
+import { RootState } from "../../store/state"
+import theme from "../../styles/ThemeStyles"
+import TwitterContainer from "./TwitterContainer"
 
 export default function Header() {
   const { user } = useSelector((state: RootState) => state.authorize)
@@ -22,10 +22,10 @@ export default function Header() {
           <input type="text" placeholder="Search on Twitter" />
         </SearchBox>
         <Profile>
-          <Link to={`/${user?.username}`}>
+          <Link to="/profile">
             <span>{user?.name}</span>
             <img
-              src={`/img/users/${user.image || 'not_found.jpg'}`}
+              src={`/img/users/${user.image || "not_found.jpg"}`}
               alt={user?.name}
             />
           </Link>

@@ -1,28 +1,28 @@
-import styled, { css } from 'styled-components'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import styled, { css } from "styled-components"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
-import TwitterContainer from '../components/Common/TwitterContainer'
-import UserInfo from '../components/Core/UserInfo'
-import ProfileActions from '../components/Core/ProfileActions'
+import TwitterContainer from "../components/Common/TwitterContainer"
+import UserInfo from "../components/Core/UserInfo"
+import ProfileActions from "../components/Core/ProfileActions"
 
-import * as profileAction from '../store/actions/profile'
-import * as tweetsAction from '../store/actions/tweets'
+import * as profileAction from "../store/actions/profile"
+import * as tweetsAction from "../store/actions/tweets"
 
-import theme from '../styles/ThemeStyles'
-import useAuth from '../hooks/useAuth'
-import TwitterBox from '../components/Common/TwitterBox'
-import Tweet from '../components/Common/Tweet'
-import { useUsersTweets } from '../hooks/useTweets'
-import TwitterFullscreen from '../components/Common/TwitterFullscreen'
+import theme from "../styles/ThemeStyles"
+import useAuth from "../hooks/useAuth"
+import TwitterBox from "../components/Common/TwitterBox"
+import Tweet from "../components/Common/Tweet"
+import { useUsersTweets } from "../hooks/useTweets"
+import TwitterFullscreen from "../components/Common/TwitterFullscreen"
 
 type Params = { username: string }
 
 export default function Profile() {
   const [openCover, setOpenCover] = useState<boolean>(false)
   const [openPicture, setOpenPicture] = useState<boolean>(false)
-  const [tab, setTab] = useState<string>('tweets')
+  const [tab, setTab] = useState<string>("tweets")
 
   const dispatch = useDispatch()
   const params: Params = useParams()
@@ -56,7 +56,7 @@ export default function Profile() {
       <TwitterFullscreen
         type="profile"
         isOpen={openPicture}
-        srcImg={`/img/users/${user.image || 'not_found.jpg'}`}
+        srcImg={`/img/users/${user.image || "not_found.jpg"}`}
         altImg={`${user.name} Cover`}
         onClose={() => setOpenPicture(false)}
       />
@@ -75,20 +75,20 @@ export default function Profile() {
               <Header>
                 <Tabs>
                   <Tab
-                    isActive={tab === 'tweets'}
-                    onClick={() => setTab('tweets')}
+                    isActive={tab === "tweets"}
+                    onClick={() => setTab("tweets")}
                   >
                     Tweets
                   </Tab>
                   <Tab
-                    isActive={tab === 'media'}
-                    onClick={() => setTab('media')}
+                    isActive={tab === "media"}
+                    onClick={() => setTab("media")}
                   >
                     Media
                   </Tab>
                   <Tab
-                    isActive={tab === 'likes'}
-                    onClick={() => setTab('likes')}
+                    isActive={tab === "likes"}
+                    onClick={() => setTab("likes")}
                   >
                     Likes
                   </Tab>
@@ -101,8 +101,8 @@ export default function Profile() {
                       <Tweet
                         key={tweet._id}
                         id={tweet._id}
-                        username={user?.username || ''}
-                        image={user?.image || ''}
+                        username={user?.username || ""}
+                        image={user?.image || ""}
                         name={user?.name}
                         text={tweet.text}
                         likes={tweet.likes}

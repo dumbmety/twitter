@@ -1,16 +1,15 @@
-import styled from 'styled-components'
-import { Person } from 'react-ionicons'
-import { Link, NavLink } from 'react-router-dom'
+import styled from "styled-components"
+import { Link, NavLink } from "react-router-dom"
 
-import logo from '../../assets/images/logo.svg'
-import theme from '../../styles/ThemeStyles'
-import navigation from '../../constants/navigation'
-import useAuth from '../../hooks/useAuth'
+import logo from "../../assets/images/logo.svg"
+import theme from "../../styles/ThemeStyles"
+import navigation from "../../constants/navigation"
+import useAuth from "../../hooks/useAuth"
 
-import TwitterButton from './TwitterButton'
+import TwitterButton from "./TwitterButton"
 
 export default function Navigation() {
-  const { user } = useAuth()
+  const { unreadNotification } = useAuth()
 
   return (
     <Wrapper>
@@ -30,17 +29,16 @@ export default function Navigation() {
                 if (link.disabled) event.preventDefault()
               }}
             >
+              {link.haveBadge &&
+                link.path === "/notifications" &&
+                unreadNotification?.length && (
+                  <Badge>{unreadNotification.length}</Badge>
+                )}
               {link.icon}
               <span>{link.name}</span>
             </NavLink>
           </Item>
         ))}
-        <Item>
-          <NavLink exact to={`/${user.username}`} activeClassName="active">
-            <Person />
-            <span>Profile</span>
-          </NavLink>
-        </Item>
       </List>
       <ButtonWrapper>
         <TwitterButton fluid disabled variant="solid">
@@ -82,6 +80,8 @@ const List = styled.ul`
 `
 
 const Item = styled.li<LinkProps>`
+  position: relative;
+
   a {
     width: 100%;
     color: ${theme.dark.text2};
@@ -122,4 +122,17 @@ const Item = styled.li<LinkProps>`
 
 const ButtonWrapper = styled.div`
   padding: 1.5rem;
+`
+
+const Badge = styled.span`
+  position: absolute;
+  top: 9px;
+  left: 35px;
+  z-index: 99;
+  width: 15px;
+  height: 15px;
+  font-size: 12px;
+  border-radius: 50%;
+  color: ${theme.dark.text1};
+  background: ${theme.colors.blue};
 `

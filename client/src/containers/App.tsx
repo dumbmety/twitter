@@ -1,17 +1,19 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import SimpleBar from 'simplebar-react'
-import { useEffect, Suspense } from 'react'
-import { useDispatch } from 'react-redux'
-import { SkeletonTheme } from 'react-loading-skeleton'
+import SimpleBar from "simplebar-react"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { useEffect, Suspense } from "react"
+import { useDispatch } from "react-redux"
+import { SkeletonTheme } from "react-loading-skeleton"
 
-import * as authAction from '../store/actions/auth'
-import Layout from '../components/Common/Layout'
-import routes from '../utils/routes'
-import theme from '../styles/ThemeStyles'
-import useAuth from '../hooks/useAuth'
+import * as authAction from "../store/actions/auth"
+import * as notificationsAction from "../store/actions/notifications"
 
-import Login from './Login'
-import Register from './Register'
+import Layout from "../components/Common/Layout"
+import routes from "../utils/routes"
+import theme from "../styles/ThemeStyles"
+import useAuth from "../hooks/useAuth"
+
+import Login from "./Login"
+import Register from "./Register"
 
 export default function App() {
   const dispatch = useDispatch()
@@ -20,11 +22,12 @@ export default function App() {
   useEffect(() => {
     dispatch(authAction.getUser())
     dispatch(authAction.getHomeTweets())
+    dispatch(notificationsAction.getNotifications())
     // eslint-disable-next-line
   }, [])
 
   return (
-    <SimpleBar style={{ height: '100vh' }}>
+    <SimpleBar style={{ height: "100vh" }}>
       <SkeletonTheme
         color={theme.dark.backgroundBox}
         highlightColor={theme.dark.backgroundCard}
@@ -33,7 +36,7 @@ export default function App() {
           <Switch>
             <Suspense fallback="Loading...">
               {loading ? (
-                'Loading...'
+                "Loading..."
               ) : isLogin ? (
                 <Layout>
                   {routes.map((route, index) => (

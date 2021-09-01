@@ -1,19 +1,19 @@
-import styled, { css } from 'styled-components'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import styled, { css } from "styled-components"
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import {
   ChatboxOutline,
   Heart,
   HeartOutline,
   RepeatOutline,
-  ShareSocialOutline
-} from 'react-ionicons'
+  ShareSocialOutline,
+} from "react-ionicons"
 
-import * as tweetService from '../../services/tweet'
-import useAuth from '../../hooks/useAuth'
-import theme from '../../styles/ThemeStyles'
-import TwitterBox from './TwitterBox'
-import TwitterCard from './TwitterCard'
+import * as tweetService from "../../services/tweet"
+import useAuth from "../../hooks/useAuth"
+import theme from "../../styles/ThemeStyles"
+import TwitterBox from "./TwitterBox"
+import TwitterCard from "./TwitterCard"
 
 interface ITweet {
   id: string
@@ -21,7 +21,6 @@ interface ITweet {
   text: string
   image: string
   name: string
-
   likes: string[]
   replies: number
   retweet: number
@@ -29,19 +28,15 @@ interface ITweet {
 
 type ActionProps = {
   isActive?: boolean
-  actionColor: 'red' | 'green' | 'blue'
+  actionColor: "red" | "green" | "blue"
 }
 
 export default function Tweet(props: ITweet) {
   const { user } = useAuth()
-
-  const [type, setType] = useState<'add' | 'sub' | ''>('')
   const [liked, setLiked] = useState<boolean>(props.likes?.includes(user._id))
 
   const url =
-    user.username === props.username
-      ? `/${props.username}`
-      : `/user/${props.username}`
+    user.username === props.username ? "/profile" : `/user/${props.username}`
 
   const likeStatusTweet = async () => {
     await tweetService.updateLikeStatusTweet(props.id, liked)
@@ -188,7 +183,7 @@ const Action = styled.div<ActionProps>`
   &:hover {
     ${props =>
       props.actionColor &&
-      props.actionColor === 'red' &&
+      props.actionColor === "red" &&
       css`
         color: ${theme.colors.red};
 
@@ -200,7 +195,7 @@ const Action = styled.div<ActionProps>`
 
     ${props =>
       props.actionColor &&
-      props.actionColor === 'blue' &&
+      props.actionColor === "blue" &&
       css`
         color: ${theme.colors.blue};
 
@@ -212,7 +207,7 @@ const Action = styled.div<ActionProps>`
 
     ${props =>
       props.actionColor &&
-      props.actionColor === 'green' &&
+      props.actionColor === "green" &&
       css`
         color: ${theme.colors.green};
 
@@ -225,7 +220,7 @@ const Action = styled.div<ActionProps>`
 
   ${props =>
     props.isActive &&
-    props.actionColor === 'red' &&
+    props.actionColor === "red" &&
     css`
       color: ${theme.colors.red};
 

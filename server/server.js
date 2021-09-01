@@ -1,16 +1,16 @@
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
-const cors = require('cors')
-const dotenv = require('dotenv')
-const express = require('express')
-const morgan = require('morgan')
-const passport = require('passport')
-const session = require('express-session')
-const MongoStore = require('connect-mongo')
+const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+const cors = require("cors")
+const dotenv = require("dotenv")
+const express = require("express")
+const morgan = require("morgan")
+const passport = require("passport")
+const session = require("express-session")
+const MongoStore = require("connect-mongo")
 
-const connectDB = require('./config/database.js')
-const passportConfig = require('./config/passport.js')
-const apiRoutes = require('./routes/index.js')
+const connectDB = require("./config/database.js")
+const passportConfig = require("./config/passport.js")
+const apiRoutes = require("./routes/index.js")
 
 // Config
 dotenv.config()
@@ -20,28 +20,28 @@ const app = express()
 const port = process.env.PORT || 8000
 
 // Middlewares
-if (process.env.NODE_ENV === 'development') app.use(morgan('tiny'))
+if (process.env.NODE_ENV === "development") app.use(morgan("tiny"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(
   cors({
-    origin: 'http://localhost:3000',
-    credentials: true
+    origin: "http://localhost:3000",
+    credentials: true,
   })
 )
 app.use(
   session({
-    secret: 'secretcode',
+    secret: "secretcode",
     resave: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI,
-      collectionName: 'sessions'
+      collectionName: "sessions",
     }),
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 }
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },
   })
 )
-app.use(cookieParser('secretcode'))
+app.use(cookieParser("secretcode"))
 app.use(passport.initialize())
 app.use(passport.session())
 passportConfig(passport)

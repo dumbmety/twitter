@@ -1,4 +1,4 @@
-import { ComponentType, lazy, LazyExoticComponent } from 'react'
+import { ComponentType, lazy, LazyExoticComponent } from "react"
 
 interface IRoute {
   path: string
@@ -6,23 +6,27 @@ interface IRoute {
 }
 
 const routes: IRoute[] = [
-  { path: '/', component: lazy(() => import('../containers/Home')) },
+  { path: "/", component: lazy(() => import("../containers/Home")) },
   {
-    path: '/:username',
-    component: lazy(() => import('../containers/Profile'))
+    path: "/notifications",
+    component: lazy(() => import("../containers/Notifications")),
   },
   {
-    path: '/:username/edit',
-    component: lazy(() => import('../containers/EditProfile'))
+    path: "/profile",
+    component: lazy(() => import("../containers/Profile")),
   },
   {
-    path: '/:username/logout',
-    component: lazy(() => import('../containers/Logout'))
+    path: "/profile/edit",
+    component: lazy(() => import("../containers/EditProfile")),
   },
   {
-    path: '/user/:username',
-    component: lazy(() => import('../containers/User'))
-  }
+    path: "/profile/logout",
+    component: lazy(() => import("../containers/Logout")),
+  },
+  {
+    path: "/user/:username",
+    component: lazy(() => import("../containers/User")),
+  },
 ]
 
 export default routes
