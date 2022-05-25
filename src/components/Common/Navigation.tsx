@@ -22,9 +22,8 @@ export default function Navigation() {
         {navigation.map(link => (
           <Item key={link.path} isDisabled={link?.disabled}>
             <NavLink
-              exact
               to={link.path}
-              activeClassName="active"
+              className={({ isActive }) => (isActive ? "active" : "")}
               onClick={event => {
                 if (link.disabled) event.preventDefault()
               }}

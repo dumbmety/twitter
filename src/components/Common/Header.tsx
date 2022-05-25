@@ -1,14 +1,13 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { Search } from "react-ionicons"
-import { useSelector } from "react-redux"
 
-import { RootState } from "../../store/state"
 import theme from "../../styles/ThemeStyles"
 import TwitterContainer from "./TwitterContainer"
+import useAppSelector from "../../hooks/useAppSelector"
 
 export default function Header() {
-  const { user } = useSelector((state: RootState) => state.authorize)
+  const { user }: any = useAppSelector(state => state.authorize)
 
   return (
     <Wrapper>

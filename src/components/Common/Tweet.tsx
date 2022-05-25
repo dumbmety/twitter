@@ -32,7 +32,7 @@ type ActionProps = {
 }
 
 export default function Tweet(props: ITweet) {
-  const { user } = useAuth()
+  const { user }: any = useAuth()
   const [liked, setLiked] = useState<boolean>(props.likes?.includes(user._id))
 
   const url =

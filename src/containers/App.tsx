@@ -1,8 +1,8 @@
 import SimpleBar from "simplebar-react"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { useEffect, Suspense } from "react"
 import { useDispatch } from "react-redux"
 import { SkeletonTheme } from "react-loading-skeleton"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import * as authAction from "../store/actions/auth"
 import * as notificationsAction from "../store/actions/notifications"
@@ -29,34 +29,33 @@ export default function App() {
   return (
     <SimpleBar style={{ height: "100vh" }}>
       <SkeletonTheme
-        color={theme.dark.backgroundBox}
+        baseColor={theme.dark.backgroundBox}
         highlightColor={theme.dark.backgroundCard}
       >
-        <Router>
-          <Switch>
-            <Suspense fallback="Loading...">
+        <BrowserRouter>
+          <Suspense fallback="Loading...">
+            <Routes>
               {loading ? (
                 "Loading..."
               ) : isLogin ? (
                 <Layout>
                   {routes.map((route, index) => (
                     <Route
-                      exact
                       key={index}
                       path={route.path}
-                      component={route.component}
+                      element={<route.component />}
                     />
                   ))}
                 </Layout>
               ) : (
                 <>
-                  <Route path="/register" component={Register} />
-                  <Route path="/" exact component={Login} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/" element={<Login />} />
                 </>
               )}
-            </Suspense>
-          </Switch>
-        </Router>
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
       </SkeletonTheme>
     </SimpleBar>
   )

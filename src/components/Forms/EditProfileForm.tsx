@@ -1,34 +1,35 @@
-import * as Yup from 'yup'
-import styled from 'styled-components'
-import { Formik, Form, Field } from 'formik'
-import { useDispatch, useSelector } from 'react-redux'
+import * as Yup from "yup"
+import styled from "styled-components"
+import { useDispatch } from "react-redux"
+import { Formik, Form, Field } from "formik"
 
-import * as profileAction from '../../store/actions/profile'
-import useAuth from '../../hooks/useAuth'
-import theme from '../../styles/ThemeStyles'
-import TwitterButton from '../Common/TwitterButton'
-import { RootState } from '../../store/state'
-import TwitterSpinner from '../Common/TwitterSpinner'
+import * as profileAction from "../../store/actions/profile"
+import useAuth from "../../hooks/useAuth"
+import theme from "../../styles/ThemeStyles"
+import TwitterButton from "../Common/TwitterButton"
+
+import TwitterSpinner from "../Common/TwitterSpinner"
+import useAppSelector from "../../hooks/useAppSelector"
 
 const formSchema = Yup.object().shape({
-  name: Yup.string().required('Please enter your name').max(50),
+  name: Yup.string().required("Please enter your name").max(50),
   bio: Yup.string().max(160),
-  website: Yup.string().url('Website must be a valid URL').max(100),
-  location: Yup.string().max(30)
+  website: Yup.string().url("Website must be a valid URL").max(100),
+  location: Yup.string().max(30),
 })
 
 export default function EditProfile() {
-  const { user } = useAuth()
+  const { user }: any = useAuth()
   const dispatch = useDispatch()
 
-  const { loading } = useSelector((state: RootState) => state.profile)
+  const { loading } = useAppSelector(state => state.profile)
 
   const initialValues = {
-    name: user.name || '',
-    bio: user.bio || '',
-    location: user.location || '',
-    website: user.website || '',
-    birthday: user.birthday || ''
+    name: user.name || "",
+    bio: user.bio || "",
+    location: user.location || "",
+    website: user.website || "",
+    birthday: user.birthday || "",
   }
 
   return (
@@ -40,7 +41,7 @@ export default function EditProfile() {
           dispatch(profileAction.updateUserProfile(user._id, values))
         }}
       >
-        {({ errors, touched }) => (
+        {({ errors, touched }: any) => (
           <Form>
             <FormControl>
               <FormLabel htmlFor="name">Name</FormLabel>
@@ -106,7 +107,7 @@ export default function EditProfile() {
                 disabled={loading}
                 type="submit"
                 variant="solid"
-                children={loading ? '' : 'Save'}
+                children={loading ? "" : "Save"}
               />
             </ButtonWrapper>
           </Form>

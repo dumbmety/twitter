@@ -1,8 +1,9 @@
-import axios from '../config/axios'
+import axios from "../config/axios"
+import { ITweet } from "../types/schemas"
 
 export async function getUserTweets() {
   try {
-    const { data } = await axios.get('/tweets')
+    const { data } = await axios.get("/tweets")
 
     return data.error
       ? { success: false, message: data.error }
@@ -12,9 +13,13 @@ export async function getUserTweets() {
   }
 }
 
-export async function getHomeTweets() {
+export async function getHomeTweets(): Promise<{
+  success: boolean
+  tweets?: ITweet[]
+  message?: any
+}> {
   try {
-    const { data } = await axios.get('/tweets/timeline')
+    const { data } = await axios.get("/tweets/timeline")
 
     return data.error
       ? { success: false, message: data.error }
@@ -26,7 +31,7 @@ export async function getHomeTweets() {
 
 export async function createTweet(text: string) {
   try {
-    const { data } = await axios.post('/tweets', { text })
+    const { data } = await axios.post("/tweets", { text })
 
     return data.error
       ? { success: false, message: data.error }

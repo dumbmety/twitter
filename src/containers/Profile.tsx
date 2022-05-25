@@ -17,17 +17,15 @@ import Tweet from "../components/Common/Tweet"
 import { useUsersTweets } from "../hooks/useTweets"
 import TwitterFullscreen from "../components/Common/TwitterFullscreen"
 
-type Params = { username: string }
-
 export default function Profile() {
   const [openCover, setOpenCover] = useState<boolean>(false)
   const [openPicture, setOpenPicture] = useState<boolean>(false)
   const [tab, setTab] = useState<string>("tweets")
 
   const dispatch = useDispatch()
-  const params: Params = useParams()
+  const params: any = useParams()
 
-  const { loading, user } = useAuth()
+  const { loading, user }: any = useAuth()
   const { tweets } = useUsersTweets()
 
   useEffect(() => {
@@ -97,7 +95,7 @@ export default function Profile() {
               <ul>
                 {tweets?.length !== 0 ? (
                   tweets
-                    ?.map(tweet => (
+                    ?.map((tweet: any) => (
                       <Tweet
                         key={tweet._id}
                         id={tweet._id}

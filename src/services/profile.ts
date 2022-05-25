@@ -1,6 +1,10 @@
-import axios from '../config/axios'
+import axios from "../config/axios"
 
-export async function get(username: string) {
+export async function get(username: string): Promise<{
+  success: boolean
+  user?: any
+  message?: any
+}> {
   try {
     const { data } = await axios.get(`/users/${username}`)
 
@@ -8,6 +12,6 @@ export async function get(username: string) {
       ? { success: false, message: data.message }
       : { success: true, user: data.user }
   } catch (err) {
-    return err
+    return { success: false, message: err }
   }
 }

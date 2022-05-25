@@ -1,19 +1,19 @@
-import styled from 'styled-components'
-import { useEffect } from 'react'
-import { People } from 'react-ionicons'
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import styled from "styled-components"
+import { useEffect } from "react"
+import { People } from "react-ionicons"
+import { useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
 
-import * as authAction from '../store/actions/auth'
-import { useHomeTweets } from '../hooks/useTweets'
-import TrendsForYou from '../components/Core/TrendsForYou'
-import Tweet from '../components/Common/Tweet'
-import TweetSkeleton from '../components/Skeleton/TweetSkeleton'
-import TwitterContainer from '../components/Common/TwitterContainer'
-import WhatsHappening from '../components/Home/WhatsHappening'
-import YouShouldFollow from '../components/Core/YouShouldFollow'
-import TwitterBox from '../components/Common/TwitterBox'
-import TwitterButton from '../components/Common/TwitterButton'
+import * as authAction from "../store/actions/auth"
+import { useHomeTweets } from "../hooks/useTweets"
+import TrendsForYou from "../components/Core/TrendsForYou"
+import Tweet from "../components/Common/Tweet"
+import TweetSkeleton from "../components/Skeleton/TweetSkeleton"
+import TwitterContainer from "../components/Common/TwitterContainer"
+import WhatsHappening from "../components/Home/WhatsHappening"
+import YouShouldFollow from "../components/Core/YouShouldFollow"
+import TwitterBox from "../components/Common/TwitterBox"
+import TwitterButton from "../components/Common/TwitterButton"
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -41,14 +41,14 @@ export default function Home() {
       )
     } else {
       $tweets_content = tweets
-        .map(({ tweet, user }) => (
+        .map(({ tweet, user }: any) => (
           <Tweet
             key={tweet._id}
             id={tweet._id}
             text={tweet.text}
-            image={user.image || ''}
+            image={user.image || ""}
             name={user.name}
-            username={user.username || ''}
+            username={user.username || ""}
             replies={tweet.replies || 0}
             retweet={tweet.retweet || 0}
             likes={tweet.likes}

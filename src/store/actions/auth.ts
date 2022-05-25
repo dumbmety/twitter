@@ -1,8 +1,8 @@
-import { Dispatch } from 'redux'
-import * as types from '../types'
+import { Dispatch } from "redux"
+import * as types from "../types"
 
-import * as authService from '../../services/auth'
-import * as tweetService from '../../services/tweet'
+import * as authService from "../../services/auth"
+import * as tweetService from "../../services/tweet"
 
 interface User {
   email: string
@@ -49,7 +49,7 @@ export const loginUser = (user: User) => async (dispatch: Dispatch) => {
   dispatch({ type: types.LOGIN_USER_REQUEST })
 
   try {
-    const { data } = await authService.login({ email, password })
+    const { data }: any = await authService.login({ email, password })
     dispatch({ type: types.LOGIN_USER_SUCCESS, user: data.user })
   } catch (error) {
     dispatch({ type: types.LOGIN_USER_FAILURE, error })
@@ -62,11 +62,11 @@ export const registerUser =
     dispatch({ type: types.REGISTER_USER_REQUEST })
 
     try {
-      const res = await authService.register({
+      const res: any = await authService.register({
         name,
         username,
         email,
-        password
+        password,
       })
 
       res.success

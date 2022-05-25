@@ -1,23 +1,22 @@
-import { useSelector } from 'react-redux'
-import { RootState } from '../store/state'
+import useAppSelector from "./useAppSelector"
 
 export function useUsersTweets() {
-  const userTweets = useSelector((state: RootState) => state.userTweets)
+  const userTweets: any = useAppSelector(state => state.userTweets)
 
   return {
     loading: userTweets.loading,
     error: userTweets.error,
     tweets: userTweets.tweets,
-    tweetsCount: userTweets.tweets.length
+    tweetsCount: userTweets.tweets.length,
   }
 }
 
 export function useHomeTweets() {
-  const homeTweets = useSelector((state: RootState) => state.homeTweets)
+  const homeTweets: any = useAppSelector(state => state.homeTweets)
 
   return {
     loading: homeTweets.loading,
     error: homeTweets.error,
-    tweets: homeTweets.tweets
+    tweets: homeTweets.tweets,
   }
 }

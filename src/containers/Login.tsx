@@ -1,14 +1,14 @@
-import * as Yup from 'yup'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { Formik, Form, Field } from 'formik'
+import * as Yup from "yup"
+import styled from "styled-components"
+import { useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
+import { Formik, Form, Field } from "formik"
 
-import * as authAction from '../store/actions/auth'
-import { RootState } from '../store/state'
-import theme from '../styles/ThemeStyles'
-import TwitterButton from '../components/Common/TwitterButton'
-import TwitterContainer from '../components/Common/TwitterContainer'
+import * as authAction from "../store/actions/auth"
+import theme from "../styles/ThemeStyles"
+import TwitterButton from "../components/Common/TwitterButton"
+import TwitterContainer from "../components/Common/TwitterContainer"
+import useAppSelector from "../hooks/useAppSelector"
 
 interface LoginFormValues {
   email: string
@@ -18,19 +18,19 @@ interface LoginFormValues {
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
-    .required('Please enter your email')
-    .email('Your email is invalid'),
-  password: Yup.string().min(8).required('Please enter your password')
+    .required("Please enter your email")
+    .email("Your email is invalid"),
+  password: Yup.string().min(8).required("Please enter your password"),
 })
 
 export default function Login() {
   const dispatch = useDispatch()
-  const authorize = useSelector((state: RootState) => state.authorize)
+  const authorize: any = useAppSelector(state => state.authorize)
 
   const initialValues: LoginFormValues = {
-    email: '',
-    password: '',
-    remberMe: false
+    email: "",
+    password: "",
+    remberMe: false,
   }
 
   return (
@@ -54,7 +54,7 @@ export default function Login() {
               dispatch(
                 authAction.loginUser({
                   email: values.email,
-                  password: values.password
+                  password: values.password,
                 })
               )
               window.location.reload()
@@ -89,12 +89,12 @@ export default function Login() {
                 </div>
                 <div
                   style={{
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between'
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
                   }}
                 >
-                  <div style={{ alignItems: 'center', flexDirection: 'row' }}>
+                  <div style={{ alignItems: "center", flexDirection: "row" }}>
                     <Field id="remberMe" name="remberMe" type="checkbox" />
                     <label htmlFor="remberMe">Remember me</label>
                   </div>
@@ -107,7 +107,7 @@ export default function Login() {
                   children="Login"
                 />
                 <p>
-                  You don't have an account?{' '}
+                  You don't have an account?{" "}
                   <Link to="/register">Create an account</Link>
                 </p>
               </Form>
@@ -128,7 +128,8 @@ const Image = styled.div`
   width: 50%;
   display: grid;
   place-items: center;
-  background-image: url('/img/auth-bg.png');
+  backdrop-filter: blur(20px);
+  background-image: url("/img/auth-bg.png");
 
   svg {
     width: 15rem;

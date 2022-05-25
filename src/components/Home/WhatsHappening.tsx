@@ -1,21 +1,26 @@
 import styled from "styled-components"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { CalendarOutline, HappyOutline, ImageOutline } from "react-ionicons"
 
 import * as authAction from "../../store/actions/auth"
 import * as tweetService from "../../services/tweet"
 import * as notificationService from "../../services/notification"
 
-import { RootState } from "../../store/state"
 import theme from "../../styles/ThemeStyles"
 import TwitterBox from "../Common/TwitterBox"
 import TwitterButton from "../Common/TwitterButton"
+import useAppSelector from "../../hooks/useAppSelector"
+import { IUser } from "../../types/schemas"
 
 export default function WhatsHappening() {
   const dispatch = useDispatch()
-  const { user } = useSelector((state: RootState) => state.authorize)
+  const {
+    user,
+  }: {
+    user: IUser
+  } = useAppSelector(state => state.authorize)
 
   const [text, setText] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)

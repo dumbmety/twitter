@@ -1,13 +1,13 @@
-import * as Yup from 'yup'
-import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
-import { Formik, Form, Field } from 'formik'
+import * as Yup from "yup"
+import styled from "styled-components"
+import { useDispatch } from "react-redux"
+import { Formik, Form, Field } from "formik"
+import { Link, useNavigate } from "react-router-dom"
 
-import theme from '../styles/ThemeStyles'
-import * as authAction from '../store/actions/auth'
-import TwitterButton from '../components/Common/TwitterButton'
-import TwitterContainer from '../components/Common/TwitterContainer'
+import theme from "../styles/ThemeStyles"
+import * as authAction from "../store/actions/auth"
+import TwitterButton from "../components/Common/TwitterButton"
+import TwitterContainer from "../components/Common/TwitterContainer"
 
 interface RegisterFormValues {
   name: string
@@ -17,23 +17,23 @@ interface RegisterFormValues {
 }
 
 const registerSchema = Yup.object().shape({
-  name: Yup.string().required('Please enter your name'),
-  username: Yup.string().required('Please enter your username'),
+  name: Yup.string().required("Please enter your name"),
+  username: Yup.string().required("Please enter your username"),
   email: Yup.string()
-    .required('Please enter your emaill')
-    .email('Your email is invalid'),
-  password: Yup.string().min(8).required('Please enter your password')
+    .required("Please enter your emaill")
+    .email("Your email is invalid"),
+  password: Yup.string().min(8).required("Please enter your password"),
 })
 
 export default function Register() {
-  const history = useHistory()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const initialValues: RegisterFormValues = {
-    name: '',
-    username: '',
-    email: '',
-    password: ''
+    name: "",
+    username: "",
+    email: "",
+    password: "",
   }
 
   return (
@@ -59,12 +59,12 @@ export default function Register() {
                   name: values.name,
                   username: values.username,
                   email: values.email,
-                  password: values.password
+                  password: values.password,
                 })
               )
 
               resetForm()
-              history.push('/')
+              navigate("/")
             }}
           >
             {({ errors, touched }) => (
@@ -141,7 +141,7 @@ const Image = styled.div`
   width: 50%;
   display: grid;
   place-items: center;
-  background-image: url('/img/auth-bg.png');
+  background-image: url("/img/auth-bg.png");
 
   svg {
     width: 15rem;

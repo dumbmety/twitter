@@ -1,10 +1,10 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { Chatbubble, Notifications, Person, Share } from 'react-ionicons'
+import styled from "styled-components"
+import { Link } from "react-router-dom"
+import { Chatbubble, Notifications, Person, Share } from "react-ionicons"
 
-import { IUser } from '../../store/state'
-import theme from '../../styles/ThemeStyles'
-import TwitterBox from '../Common/TwitterBox'
+import { IUser } from "../../types/schemas"
+import theme from "../../styles/ThemeStyles"
+import TwitterBox from "../Common/TwitterBox"
 
 type Props = {
   user: IUser
@@ -22,8 +22,8 @@ export default function UserActions(props: Props) {
   const shareProfile = () => {
     window.navigator.share({
       text: props.user.name,
-      title: 'Share Profile',
-      url: window.location.href
+      title: "Share Profile",
+      url: window.location.href,
     })
   }
 
@@ -33,11 +33,11 @@ export default function UserActions(props: Props) {
     <Grid>
       <TwitterBox
         variant="outline"
-        color={props.follow ? 'red' : 'blue'}
+        color={props.follow ? "red" : "blue"}
         onClick={toggleFollow}
       >
         <Person />
-        <Title>{props.follow ? 'Unfollow' : 'Follow'}</Title>
+        <Title>{props.follow ? "Unfollow" : "Follow"}</Title>
       </TwitterBox>
       <Link to={`/messages/${props.user.username}`}>
         <TwitterBox variant="outline">

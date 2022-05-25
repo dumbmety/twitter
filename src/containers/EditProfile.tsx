@@ -1,25 +1,23 @@
-import styled from 'styled-components'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { Camera, CloseCircle } from 'react-ionicons'
+import styled from "styled-components"
+import { useEffect } from "react"
+import { useParams } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { Camera, CloseCircle } from "react-ionicons"
 
-import EditProfileForm from '../components/Forms/EditProfileForm'
-import TwitterBox from '../components/Common/TwitterBox'
-import TwitterContainer from '../components/Common/TwitterContainer'
-import UserActions from '../components/Core/ProfileActions'
+import EditProfileForm from "../components/Forms/EditProfileForm"
+import TwitterBox from "../components/Common/TwitterBox"
+import TwitterContainer from "../components/Common/TwitterContainer"
+import UserActions from "../components/Core/ProfileActions"
 
-import * as userService from '../services/user'
-import * as profileAction from '../store/actions/profile'
-import theme from '../styles/ThemeStyles'
-import useAuth from '../hooks/useAuth'
-
-type Params = { username: string }
+import * as userService from "../services/user"
+import * as profileAction from "../store/actions/profile"
+import theme from "../styles/ThemeStyles"
+import useAuth from "../hooks/useAuth"
 
 export default function EditProfile() {
-  const { user } = useAuth()
+  const { user }: any = useAuth()
   const dispatch = useDispatch()
-  const params: Params = useParams()
+  const params: any = useParams()
 
   useEffect(() => {
     dispatch(profileAction.getUserProfile(params.username))
@@ -53,7 +51,7 @@ export default function EditProfile() {
                 <Avatar>
                   <AvatarOverlay />
                   <img
-                    src={`/img/users/${user.image || 'not_found.jpg'}`}
+                    src={`/img/users/${user.image || "not_found.jpg"}`}
                     alt={`${user.name} Cover`}
                   />
                   <Camera />
@@ -63,7 +61,7 @@ export default function EditProfile() {
             </TwitterBox>
             <UserActions activeLink="edit" />
           </Group>
-          <Group style={{ flex: '1' }}>
+          <Group style={{ flex: "1" }}>
             <TwitterBox>
               <EditProfileForm />
             </TwitterBox>

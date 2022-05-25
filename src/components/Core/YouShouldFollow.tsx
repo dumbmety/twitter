@@ -1,13 +1,13 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { Reload } from 'react-ionicons'
-import { useEffect, useState } from 'react'
+import styled from "styled-components"
+import { Link } from "react-router-dom"
+import { Reload } from "react-ionicons"
+import { useEffect, useState } from "react"
 
-import * as userService from '../../services/user'
-import { IUser } from '../../store/state'
-import theme from '../../styles/ThemeStyles'
-import TwitterBox from '../Common/TwitterBox'
-import TwitterSpinner from '../Common/TwitterSpinner'
+import * as userService from "../../services/user"
+import { IUser } from "../../types/schemas"
+import theme from "../../styles/ThemeStyles"
+import TwitterBox from "../Common/TwitterBox"
+import TwitterSpinner from "../Common/TwitterSpinner"
 
 export default function YouShouldFollow() {
   const randomUsersNumber = 3

@@ -1,13 +1,13 @@
-import styled from 'styled-components'
-import ReactLoading from 'react-loading'
-import Skeleton from 'react-loading-skeleton'
-import { LocationOutline } from 'react-ionicons'
+import styled from "styled-components"
+import ReactLoading from "react-loading"
+import Skeleton from "react-loading-skeleton"
+import { LocationOutline } from "react-ionicons"
 
-import theme from '../../styles/ThemeStyles'
-import TwitterBox from '../Common/TwitterBox'
+import theme from "../../styles/ThemeStyles"
+import TwitterBox from "../Common/TwitterBox"
 
-import { IUser } from '../../store/state'
-import { useUsersTweets } from '../../hooks/useTweets'
+import { IUser } from "../../types/schemas"
+import { useUsersTweets } from "../../hooks/useTweets"
 
 type Props = {
   user: IUser
@@ -33,7 +33,7 @@ export default function UserInfo(props: Props) {
         <Avatar hasAvatar={!!props?.user?.image} onClick={handleClickAvatar}>
           {props?.user ? (
             <img
-              src={`/img/users/${props?.user?.image || 'not_found.jpg'}`}
+              src={`/img/users/${props?.user?.image || "not_found.jpg"}`}
               alt={`${props?.user?.name} Cover`}
             />
           ) : (

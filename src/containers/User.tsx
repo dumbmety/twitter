@@ -1,29 +1,27 @@
-import styled, { css } from 'styled-components'
-import { useDispatch } from 'react-redux'
-import { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
-import Skeleton from 'react-loading-skeleton'
+import styled, { css } from "styled-components"
+import { useDispatch } from "react-redux"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import Skeleton from "react-loading-skeleton"
 
-import TwitterContainer from '../components/Common/TwitterContainer'
-import UserInfo from '../components/Core/UserInfo'
+import TwitterContainer from "../components/Common/TwitterContainer"
+import UserInfo from "../components/Core/UserInfo"
 
-import * as userService from '../services/user'
-import * as authAction from '../store/actions/auth'
-import useAuth from '../hooks/useAuth'
+import * as userService from "../services/user"
+import * as authAction from "../store/actions/auth"
+import useAuth from "../hooks/useAuth"
 
-import { IUser } from '../store/state'
-import theme from '../styles/ThemeStyles'
-import TwitterBox from '../components/Common/TwitterBox'
-import Tweet from '../components/Common/Tweet'
-import TwitterFullscreen from '../components/Common/TwitterFullscreen'
-import TweetSkeleton from '../components/Skeleton/TweetSkeleton'
-import UserActions from '../components/Core/UserActions'
-
-type Params = { username: string }
+import theme from "../styles/ThemeStyles"
+import TwitterBox from "../components/Common/TwitterBox"
+import Tweet from "../components/Common/Tweet"
+import TwitterFullscreen from "../components/Common/TwitterFullscreen"
+import TweetSkeleton from "../components/Skeleton/TweetSkeleton"
+import UserActions from "../components/Core/UserActions"
+import { IUser } from "../types/schemas"
 
 export default function User() {
-  const auth = useAuth()
-  const history = useHistory()
+  const auth: any = useAuth()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [user, setUser] = useState<IUser>({} as IUser)
@@ -32,9 +30,9 @@ export default function User() {
 
   const [openCover, setOpenCover] = useState<boolean>(false)
   const [openPicture, setOpenPicture] = useState<boolean>(false)
-  const [tab, setTab] = useState<string>('tweets')
+  const [tab, setTab] = useState<string>("tweets")
 
-  const params: Params = useParams()
+  const params: any = useParams()
 
   useEffect(() => {
     return () => {
@@ -45,7 +43,7 @@ export default function User() {
 
   useEffect(() => {
     if (params.username === auth.user.username) {
-      history.push("/profile")
+      navigate("/profile")
     } else {
       getUserProfile()
     }
@@ -115,8 +113,8 @@ export default function User() {
         <Tweet
           key={tweet._id}
           id={tweet._id}
-          username={user?.username || ''}
-          image={user?.image || ''}
+          username={user?.username || ""}
+          image={user?.image || ""}
           name={user?.name}
           text={tweet.text}
           likes={tweet.likes}
@@ -149,7 +147,7 @@ export default function User() {
         <TwitterFullscreen
           type="profile"
           isOpen={openPicture}
-          srcImg={`/img/users/${user?.image || 'not_found.jpg'}`}
+          srcImg={`/img/users/${user?.image || "not_found.jpg"}`}
           altImg={`${user?.name} Cover`}
           onClose={() => setOpenPicture(false)}
         />
@@ -174,20 +172,20 @@ export default function User() {
               <Header>
                 <Tabs>
                   <Tab
-                    isActive={tab === 'tweets'}
-                    onClick={() => setTab('tweets')}
+                    isActive={tab === "tweets"}
+                    onClick={() => setTab("tweets")}
                   >
                     Tweets
                   </Tab>
                   <Tab
-                    isActive={tab === 'media'}
-                    onClick={() => setTab('media')}
+                    isActive={tab === "media"}
+                    onClick={() => setTab("media")}
                   >
                     Media
                   </Tab>
                   <Tab
-                    isActive={tab === 'likes'}
-                    onClick={() => setTab('likes')}
+                    isActive={tab === "likes"}
+                    onClick={() => setTab("likes")}
                   >
                     Likes
                   </Tab>

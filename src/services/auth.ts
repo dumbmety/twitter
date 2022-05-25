@@ -1,4 +1,5 @@
-import axios from '../config/axios'
+import axios from "../config/axios"
+import { IUser } from "../types/schemas"
 
 interface IUserLogin {
   email: string
@@ -12,14 +13,18 @@ interface IUserRegister {
   password: string
 }
 
-export async function getLoggedInUser() {
+export async function getLoggedInUser(): Promise<{
+  success: boolean
+  user?: IUser
+  message?: any
+}> {
   try {
-    const { data } = await axios.get('/user')
+    const { data } = await axios.get("/user")
     return data.user
       ? { success: true, user: data.user }
       : { success: false, message: data.message }
   } catch (err) {
-    return err
+    return { success: false, message: err }
   }
 }
 
@@ -27,7 +32,7 @@ export async function login({ email, password }: IUserLogin) {
   const user = { email, password }
 
   try {
-    const { data } = await axios.post('/login', user)
+    const { data } = await axios.post("/login", user)
 
     return data.error
       ? { success: false, message: data.message }
@@ -39,7 +44,7 @@ export async function login({ email, password }: IUserLogin) {
 
 export async function logout() {
   try {
-    const { data } = await axios.post('/logout')
+    const { data } = await axios.post("/logout")
 
     return data.error
       ? { success: false, message: data.message }
@@ -53,12 +58,12 @@ export async function register({
   name,
   username,
   email,
-  password
+  password,
 }: IUserRegister) {
   const user = { name, email, username, password }
 
   try {
-    const { data } = await axios.post('/register', user)
+    const { data } = await axios.post("/register", user)
 
     return data.error
       ? { success: false, message: data.message }
